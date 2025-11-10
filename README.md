@@ -40,7 +40,6 @@ See the [changelog][].
 
 ## Contact
 
-For questions and help requests, you can reach out in the [scverse discourse][].
 If you found a bug, please use the [issue tracker][].
 
 ## Citation
@@ -48,10 +47,8 @@ If you found a bug, please use the [issue tracker][].
 > t.b.a
 
 [uv]: https://github.com/astral-sh/uv
-[scverse discourse]: https://discourse.scverse.org/
 [issue tracker]: https://github.com/cellannotation/pairOT_package/issues
 [tests]: https://github.com/cellannotation/pairot/actions/workflows/test.yaml
 [documentation]: https://pairOT_package.readthedocs.io
 [changelog]: https://pairOT_package.readthedocs.io/en/latest/changelog.html
 [api documentation]: https://pairOT_package.readthedocs.io/en/latest/api.html
-[pypi]: https://pypi.org/project/pairOT_package
