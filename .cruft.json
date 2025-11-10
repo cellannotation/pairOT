@@ -1,0 +1,43 @@
+{
+  "template": "https://github.com/scverse/cookiecutter-scverse",
+  "commit": "7c111b8c342278a12e5eb26b8fee48b058c23b5a",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "pairOT_package",
+      "package_name": "pairot",
+      "project_description": "Align cell annotations across two datasets through annotation-informed optimal transport.",
+      "author_full_name": "Felix Fischer",
+      "author_email": "felix.fischer@helmholtz--munich.de",
+      "github_user": "cellannotation",
+      "github_repo": "pairot",
+      "license": "MIT License",
+      "ide_integration": true,
+      "_copy_without_render": [
+        ".github/workflows/build.yaml",
+        ".github/workflows/test.yaml",
+        "docs/_templates/autosummary/**.rst"
+      ],
+      "_exclude_on_template_update": [
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md",
+        "docs/api.md",
+        "docs/index.md",
+        "docs/notebooks/example.ipynb",
+        "docs/references.bib",
+        "docs/references.md",
+        "src/**",
+        "tests/**"
+      ],
+      "_render_devdocs": false,
+      "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+      },
+      "_template": "https://github.com/scverse/cookiecutter-scverse",
+      "_commit": "7c111b8c342278a12e5eb26b8fee48b058c23b5a"
+    }
+  },
+  "directory": null
+}
