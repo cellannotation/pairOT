@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "hatchling.build"
-requires = [ "hatchling" ]
+requires = [ "cython>=3.0.11", "hatch-cython>=0.5", "hatchling" ]
 
 [project]
 name = "pairot"
@@ -14,12 +14,11 @@ maintainers = [
 authors = [
   { name = "Felix Fischer" },
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
-  "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
   "anndata>=0.10",
@@ -69,15 +68,17 @@ urls.Documentation = "https://pairOT_package.readthedocs.io/"
 urls.Homepage = "https://github.com/cellannotation/pairot"
 urls.Source = "https://github.com/cellannotation/pairot"
 
-[tool.setuptools.ext-modules]
-name = "pairot.pp._auroc"
-sources = [ "pairot/pp/_auroc.pyx" ]
-
-[tool.setuptools.package-data]
-"pairot.pp" = [ "resources/*" ]
-
 [tool.hatch.build.targets.wheel]
 packages = [ "src/pairot" ]
+
+[tool.hatch.build.targets.wheel.hooks.cython]
+dependencies = [ "hatch-cython" ]
+
+[[tool.hatch.build.targets.wheel.hooks.cython.options.compile_py]]
+files = [ "src/pairot/pp/_auroc.pyx" ]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/pairot/pp/resources" = "pairot/pp/resources"
 
 [tool.hatch.envs.default]
 installer = "uv"
@@ -92,12 +93,12 @@ scripts.clean = "git clean -fdX -- {args:docs}"
 # Test the lowest and highest supported Python versions with normal deps
 [[tool.hatch.envs.hatch-test.matrix]]
 deps = [ "stable" ]
-python = [ "3.12", "3.14" ]
+python = [ "3.12", "3.13" ]
 
 # Test the newest supported Python version also with pre-release deps
 [[tool.hatch.envs.hatch-test.matrix]]
 deps = [ "pre" ]
-python = [ "3.14" ]
+python = [ "3.13" ]
 
 [tool.hatch.envs.hatch-test]
 features = [ "dev", "test" ]
@@ -157,7 +158,7 @@ addopts = [
 ]
 
 [tool.coverage.run]
-source = [ "pairot" ]
+source = [ "src/pairot" ]
 patch = [ "subprocess" ]
 omit = [
   "**/test_*.py",

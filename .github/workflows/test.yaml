@@ -61,6 +61,32 @@ jobs:
         with:
           filter: blob:none
           fetch-depth: 0
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - name: Get R version for cache key
+        id: r-version
+        run: echo "version=$(R --version | head -n1 | cut -d' ' -f3)" >> $GITHUB_OUTPUT
+      - name: Cache R packages
+        id: cache-r-packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/local/lib/R/site-library
+            /usr/lib/R/site-library
+            /usr/lib/R/library
+          key: ${{ runner.os }}-r-${{ steps.r-version.outputs.version }}-${{ hashFiles('**/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-r-${{ steps.r-version.outputs.version }}-
+            ${{ runner.os }}-r-
+      - name: Install R packages
+        if: steps.cache-r-packages.outputs.cache-hit != 'true'
+        run: |
+          R -e 'if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")'
+          R -e 'BiocManager::install(c("limma", "rhdf5"), update=FALSE, ask=FALSE)'
+          R -e 'install.packages(c("Matrix", "magrittr", "data.table", "glue", "stringr"), repos="https://cloud.r-project.org")'
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:

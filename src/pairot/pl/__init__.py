@@ -8,4 +8,4 @@ __all__ = [
     "plot_sankey",
 ]
 
-__version__ = version("pairOT")
+__version__ = version("pairot")

@@ -4,4 +4,4 @@ from ._dataset_ot import DatasetMapping
 
 __all__ = ["DatasetMapping"]
 
-__version__ = version("pairOT")
+__version__ = version("pairot")
