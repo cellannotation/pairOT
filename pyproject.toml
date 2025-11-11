@@ -154,11 +154,14 @@ lint.pydocstyle.convention = "numpy"
 testpaths = [ "tests" ]
 xfail_strict = true
 addopts = [
-  "--import-mode=importlib", # allow using test files with same name
+  "--import-mode=importlib",                # allow using test files with same name
+  "--cov=pairot",
+  "--cov-report=term-missing:skip-covered",
+  "--cov-report=xml",
 ]
 
 [tool.coverage.run]
-source = [ "pairot" ]
+source = [ "src/pairot" ]
 patch = [ "subprocess" ]
 omit = [
   "**/test_*.py",
