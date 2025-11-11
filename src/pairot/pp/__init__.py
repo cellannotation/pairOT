@@ -31,4 +31,4 @@ __all__ = [
     "FILTERED_GENES",
 ]
 
-__version__ = version("pairOT")
+__version__ = version("pairot")
