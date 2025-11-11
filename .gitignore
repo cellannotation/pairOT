@@ -8,6 +8,8 @@ buck-out/
 .venv/
 __pycache__/
 .*cache/
+*.c
+*.so
 
 # Distribution / packaging
 /dist/

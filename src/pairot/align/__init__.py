@@ -1,7 +1,7 @@
 from importlib.metadata import version
 
-from . import align, pl, pp
+from ._dataset_ot import DatasetMapping
 
-__all__ = ["pp", "align", "pl"]
+__all__ = ["DatasetMapping"]
 
 __version__ = version("pairOT")

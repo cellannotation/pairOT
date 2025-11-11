@@ -22,10 +22,31 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "anndata",
+  "anndata>=0.10",
+  "cython>=3.0.11",
+  "jax>=0.4.29",
+  "joblib>=1.4.2",
+  "matplotlib>=3.8.4",
+  "numpy>=1.26.4",
+  "ott-jax>=0.4.9",
+  "pandas>=2.2.1",
+  "plotly>=5.21",
+  "rpy2>=3.5.11",
+  "scanpy>=1.9.8",
+  "scikit-learn>=1",
+  "scipy>=1.12",
   # for debug logging (referenced from the issue template)
   "session-info2",
+  "tqdm>=4.66.2",
 ]
+
+[[tool.setuptools.ext-modules]]
+name = "pairot.pp._auroc"
+sources = [ "pairot/pp/_auroc.pyx" ]
+
+[tool.setuptools.package-data]
+"pairot.pp" = [ "resources/*" ]
+
 optional-dependencies.dev = [
   "pre-commit",
   "twine>=4.0.2",
@@ -72,7 +93,7 @@ scripts.clean = "git clean -fdX -- {args:docs}"
 # Test the lowest and highest supported Python versions with normal deps
 [[tool.hatch.envs.hatch-test.matrix]]
 deps = [ "stable" ]
-python = [ "3.11", "3.14" ]
+python = [ "3.12", "3.14" ]
 
 # Test the newest supported Python version also with pre-release deps
 [[tool.hatch.envs.hatch-test.matrix]]

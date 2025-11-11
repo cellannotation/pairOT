@@ -3,13 +3,13 @@
 ## Preprocessing
 
 ```{eval-rst}
-.. module:: pairot.pp
+.. module:: pairot.de_testing
 .. currentmodule:: pairot
 
 .. autosummary::
     :toctree: generated
 
-    pp.basic_preproc
+    de_testing.basic_preproc
     pp.elaborate_example
 ```
 
