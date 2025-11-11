@@ -70,6 +70,7 @@ jobs:
         id: r-version
         run: echo "version=$(R --version | head -n1 | cut -d' ' -f3)" >> $GITHUB_OUTPUT
       - name: Cache R packages
+        id: cache-r-packages
         uses: actions/cache@v4
         with:
           path: |
@@ -81,6 +82,7 @@ jobs:
             ${{ runner.os }}-r-${{ steps.r-version.outputs.version }}-
             ${{ runner.os }}-r-
       - name: Install R packages
+        if: steps.cache-r-packages.outputs.cache-hit != 'true'
         run: |
           R -e 'if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")'
           R -e 'BiocManager::install(c("limma", "rhdf5"), update=FALSE, ask=FALSE)'
