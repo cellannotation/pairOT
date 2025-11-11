@@ -74,8 +74,9 @@ packages = [ "src/pairot" ]
 [tool.hatch.build.targets.wheel.hooks.cython]
 dependencies = [ "hatch-cython" ]
 
-[[tool.hatch.build.targets.wheel.hooks.cython.options.compile_py]]
-files = [ "src/pairot/pp/_auroc.pyx" ]
+[tool.hatch.build.targets.wheel.hooks.cython.options]
+directives = { language_level = 3 }
+compile_py = false
 
 [tool.hatch.build.targets.wheel.force-include]
 "src/pairot/pp/resources" = "pairot/pp/resources"
