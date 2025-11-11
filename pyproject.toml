@@ -39,14 +39,6 @@ dependencies = [
   "session-info2",
   "tqdm>=4.66.2",
 ]
-
-[[tool.setuptools.ext-modules]]
-name = "pairot.pp._auroc"
-sources = [ "pairot/pp/_auroc.pyx" ]
-
-[tool.setuptools.package-data]
-"pairot.pp" = [ "resources/*" ]
-
 optional-dependencies.dev = [
   "pre-commit",
   "twine>=4.0.2",
@@ -76,6 +68,13 @@ optional-dependencies.test = [
 urls.Documentation = "https://pairOT_package.readthedocs.io/"
 urls.Homepage = "https://github.com/cellannotation/pairot"
 urls.Source = "https://github.com/cellannotation/pairot"
+
+[tool.setuptools.ext-modules]
+name = "pairot.pp._auroc"
+sources = [ "pairot/pp/_auroc.pyx" ]
+
+[tool.setuptools.package-data]
+"pairot.pp" = [ "resources/*" ]
 
 [tool.hatch.build.targets.wheel]
 packages = [ "src/pairot" ]
