@@ -12,6 +12,8 @@
 [badge-tests]: https://img.shields.io/github/actions/workflow/status/cellannotation/pairOT_package/test.yaml?branch=main
 [badge-docs]: https://img.shields.io/readthedocs/pairOT_package
 
+# pairOT: Identifying similar cell types and states across single-cell transcriptomic studies
+
 Align cell annotations across two datasets through annotation-informed optimal transport.
 
 - [Getting started](#getting-started)
@@ -32,11 +34,11 @@ in particular, the [API documentation][].
 ## Tutorial
 Please take a look at the following tutorials for detailed examples on how to use pairOT:
 
-### pairOT: Detailed explanation
+### Detailed explanation
 For a detailed tutorial, please see the [in depth tutorial](https://github.com/cellannotation/pairOT_package/blob/main/docs/notebooks/Tutorial.ipynb).
 
-### pairOT: Fit pairOT with reduced compute requirements / Speed up pairOT computations
-For details on how to speed up pairOT model fits, see the [reduce compute requirements tutorial](https://github.com/cellannotation/pairOT_package/blob/main/docs/notebooks/Reduce%20Compute%20Requirements.ipynb)
+### Speed up pairOT computations
+For details on how to speed up pairOT model fits and reduce compute requirements, see the [reduce compute requirements tutorial](https://github.com/cellannotation/pairOT_package/blob/main/docs/notebooks/Reduce%20Compute%20Requirements.ipynb)
 
 
 ## Basics of using pairOT
@@ -87,7 +89,7 @@ You need to have Python 3.12 or newer installed on your system.
 If you don't have Python installed, we recommend installing [uv][].
 
 ### Running pairOT via Docker
-To run pairOT, we provide a docker image that contains all the necessary dependencies: https://hub.docker.com/r/felix0097/pairot/tags
+To run pairOT, we provide a [docker image](https://hub.docker.com/r/felix0097/pairot/tags) that contains all the necessary dependencies:
 ```bash
 docker pull felix0097/pairot:full_v1
 ```

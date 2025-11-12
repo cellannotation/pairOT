@@ -9,7 +9,8 @@
 api.md
 changelog.md
 contributing.md
-references.md
 
-notebooks/example
+[//]: # (references.md)
+
+notebooks/index
 ```
