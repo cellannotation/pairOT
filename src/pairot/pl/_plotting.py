@@ -62,7 +62,7 @@ def plot_cluster_mapping(
     backend: Literal["plotly", "matplotlib"] = "plotly",
 ):
     """
-    Plot cluster mappings from :class:`pairot.algin.DatasetMapping.compute_cluster_mapping`.
+    Plot cluster mappings from :class:`pairot.align.DatasetMapping.compute_cluster_mapping`.
 
     Parameters
     ----------
@@ -110,7 +110,7 @@ def plot_cluster_distance(
     backend: Literal["plotly", "matplotlib"] = "plotly",
 ):
     """
-    Plot cluster distances from :class:`pairot.algin.DatasetMapping.compute_cluster_distance`.
+    Plot cluster distances from :class:`pairot.align.DatasetMapping.compute_cluster_distance`.
 
     Parameters
     ----------
@@ -150,7 +150,7 @@ def plot_sankey(
     height: int = None,
 ):
     """
-    Plot cluster mappings and distances from :class:`pairot.algin.DatasetMapping` as a Sankey diagram.
+    Plot cluster mappings and distances from :class:`pairot.align.DatasetMapping` as a Sankey diagram.
 
     Parameters
     ----------

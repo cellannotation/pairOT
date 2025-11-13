@@ -15,8 +15,12 @@
     pp.select_and_combine_de_results
     pp.sort_and_filter_de_genes_ova
     pp.sort_and_filter_de_genes_ava
-    pp.OFFICIAL_GENES
-    pp.FILTERED_GENES
+
+.. autodata:: pp.OFFICIAL_GENES
+    :annotations: pd.DataFrame
+
+.. autodata:: pp.FILTERED_GENES
+    :annotations: pd.DataFrame
 
 ```
 
