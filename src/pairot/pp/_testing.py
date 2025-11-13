@@ -344,9 +344,9 @@ def calc_pseudobulk_stats(
             AnnData.obs should contain cluster labels and sample labels.
             AnnData.var should contain gene names.
         cluster_label
-            Column in :class:`adata.obs` containing cluster labels.
+            Column in `adata.obs` containing cluster labels.
         sample_label
-            Column in :class:`adata.obs` containing sample labels.
+            Column in `adata.obs` containing sample labels.
         n_samples_auroc
             Number of samples to use for AUROC calculation. If None, use all samples.
 

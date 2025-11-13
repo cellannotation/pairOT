@@ -448,7 +448,7 @@ class DatasetMapping:
         """
         Initialize the optimal transport problem.
 
-        Function calls the constructor of :class:`ott.problem.linear.linear_problem.LinearProblem`.
+        Function calls the constructor of :class:`ott.problems.linear.linear_problem.LinearProblem`.
 
         Parameters
         ----------
@@ -464,7 +464,7 @@ class DatasetMapping:
                     (E.g. each cell type contributes the same mass to the marginal distribution)
                 This parameter is ignored, if marginals 'a' or 'b' are supplied via the **kwargs.
             kwargs
-                Keyword arguments passed to :class:`ott.problem.linear.linear_problem.LinearProblem`.
+                Keyword arguments passed to :class:`ott.problems.linear.linear_problem.LinearProblem`.
         """
         self._assert_geom_initialized()
 

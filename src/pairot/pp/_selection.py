@@ -4,10 +4,11 @@ from os.path import dirname, join
 import numpy as np
 import pandas as pd
 
-#: DataFrame containing official gene names from genenames.org.
 OFFICIAL_GENES: pd.DataFrame = pd.read_csv(join(dirname(__file__), "resources/official-genes.csv"))
-#: DataFrame containing uninformative genes to filter out, e.g., mitochondrial, ribosomal, IncRNA, TCR and BCR genes.
+"""DataFrame containing official gene names from genenames.org."""
+
 FILTERED_GENES: pd.DataFrame = pd.read_csv(join(dirname(__file__), "resources/filtered-genes.csv"))
+"""DataFrame containing uninformative genes to filter out, e.g., mitochondrial, ribosomal, IncRNA, TCR and BCR genes."""
 
 
 def _calc_scaled_jaccard(markers1: dict[str, set], markers2: dict[str, set]) -> pd.DataFrame:
