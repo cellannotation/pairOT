@@ -323,10 +323,38 @@ def _extract_ava_de_results(
 
 def calc_pseudobulk_stats(
     adata: anndata.AnnData,
-    cluster_label: str = "cell_type_author",
-    sample_label: str = "sample_id",
+    cluster_label: str,
+    sample_label: str,
     n_samples_auroc: int = None,
-):
+) -> tuple[dict[str, pd.DataFrame], dict[str, dict[str, pd.DataFrame]]]:
+    """
+    Calculate pseudobulk DE statistics using limmaR package.
+
+    See :func:`pairot.pp.sort_and_filter_de_genes_ova` for downstream processing of the OVA (one vs. all) DE results.
+    See :func:`pairot.pp.sort_and_filter_de_genes_ava` for downstream processing of the AVA (all vs. all) DE results.
+    See :func:`pairot.pp.select_and_combine_de_results` for combining OVA and AVA DE results.
+
+    Parameters
+    ----------
+        adata
+            AnnData object containing single-cell data.
+            AnnData.X should contain raw counts.
+            AnnData.obs should contain cluster labels and sample labels.
+            AnnData.var should contain gene names.
+        cluster_label
+            Column in :class:`anndata.AnnData.obs` containing cluster labels.
+        sample_label
+            Column in :class:`anndata.AnnData.obs` containing sample labels.
+        n_samples_auroc
+            Number of samples to use for AUROC calculation. If None, use all samples.
+
+    Returns
+    -------
+        de_res_ova
+            Dictionary containing one DataFrame per cluster with OVA (one vs. all) DE results.
+        de_res_ava
+            Dictionary containing one dictionary per cluster with AVA (all vs. all) DE results.
+    """
     if not isinstance(adata.X, csr_matrix):
         adata.X = csr_matrix(adata.X)
     if not adata.obs[cluster_label].dtype.name == "category":
