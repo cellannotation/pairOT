@@ -205,13 +205,13 @@ class DatasetMapping:
 
     @property
     def DEGs_label_distance_matrix(self):
-        """Return the DEGs (differentially expressed genes) based on which the label distance matrix has been computed."""
+        """Return DEGs (differentially expressed genes) based on which label distance matrix is computed."""
         self._assert_geom_initialized()
         return self._used_genes
 
     @property
     def label_distance_matrix(self):
-        """Return the label distance matrix between cell-type clusters."""
+        """Return label distance matrix between cell-type clusters."""
         self._assert_geom_initialized()
         return self._label_distance
 
@@ -305,7 +305,7 @@ class DatasetMapping:
         gene_filtering: bool = True,
         q_norm: float = 0.33,
     ):
-        """Compute distance between labels/clusters based on the overlap of differentially expressed genes."""
+        """Compute distance between clusters based on the overlap of differentially expressed genes."""
         adata1 = self.adata1
         adata2 = self.adata2
 
@@ -515,7 +515,7 @@ class DatasetMapping:
 
     def compute_cluster_mapping(
         self,
-        aggregation_method: Literal["mean", "jensen_shannon", "transported_mass"] | None = None,
+        aggregation_method: Literal["mean", "jensen_shannon", "transported_mass"] | None = "mean",
     ) -> pd.DataFrame | dict[str, pd.DataFrame]:
         """
         Compute the mapping between cell-type clusters based on the aggregated transport matrix.
