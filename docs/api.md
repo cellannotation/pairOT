@@ -15,13 +15,6 @@
     pp.select_and_combine_de_results
     pp.sort_and_filter_de_genes_ova
     pp.sort_and_filter_de_genes_ava
-
-.. autodata:: pp.OFFICIAL_GENES
-    :annotations: pd.DataFrame
-
-.. autodata:: pp.FILTERED_GENES
-    :annotations: pd.DataFrame
-
 ```
 
 ## Align
@@ -48,4 +41,24 @@
     pl.plot_cluster_mapping
     pl.plot_cluster_distance
     pl.plot_sankey
+```
+
+## Resources
+
+```{eval-rst}
+.. module:: pairot.pp
+.. currentmodule:: pairot
+
+.. autodata:: pp.OFFICIAL_GENES
+   :annotation: pandas.DataFrame
+
+   A DataFrame containing official gene names sourced from genenames.org (HGNC).
+   The main column is ``feature_name`` with HGNC-approved gene symbols that are considered valid/official.
+
+.. autodata:: pp.FILTERED_GENES
+   :annotation: pandas.DataFrame
+
+   A DataFrame listing uninformative genes to filter out during preprocessing,
+   including mitochondrial, ribosomal, lncRNA, TCR, and BCR genes.
+   The main column is ``feature_name``.
 ```
