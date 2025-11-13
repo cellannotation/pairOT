@@ -55,7 +55,7 @@ def sort_and_filter_de_genes_ova(
     gene_filtering: bool = True,
 ) -> dict[str, pd.DataFrame]:
     """
-    Sort and filter the differentially expressed genes from the results of :func:`pairot.pp.calc_pseudobulk_stats` for the OVA (one vs. all) setting.
+    Sort and filter the differentially expressed genes for the OVA (one vs. all) setting.
 
     Parameters
     ----------
@@ -117,7 +117,7 @@ def sort_and_filter_de_genes_ava(
     gene_filtering: bool = True,
 ) -> dict[str, dict[str, pd.DataFrame]]:
     """
-    Sort and filter the differentially expressed genes from the results of :func:`pairot.pp.calc_pseudobulk_stats` for the AVA (all vs. all) setting.
+    Sort and filter the differentially expressed genes for the AVA (all vs. all) setting.
 
     Parameters
     ----------
