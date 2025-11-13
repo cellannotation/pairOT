@@ -49,16 +49,9 @@
 .. module:: pairot.pp
 .. currentmodule:: pairot
 
-.. autodata:: pp.OFFICIAL_GENES
-   :annotation: pandas.DataFrame
+.. autosummary::
+    :toctree: generated
 
-   A DataFrame containing official gene names sourced from genenames.org (HGNC).
-   The main column is ``feature_name`` with HGNC-approved gene symbols that are considered valid/official.
-
-.. autodata:: pp.FILTERED_GENES
-   :annotation: pandas.DataFrame
-
-   A DataFrame listing uninformative genes to filter out during preprocessing,
-   including mitochondrial, ribosomal, lncRNA, TCR, and BCR genes.
-   The main column is ``feature_name``.
+    pp.OFFICIAL_GENES
+    pp.FILTERED_GENES
 ```

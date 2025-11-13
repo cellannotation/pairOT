@@ -8,7 +8,7 @@ OFFICIAL_GENES: pd.DataFrame = pd.read_csv(join(dirname(__file__), "resources/of
 OFFICIAL_GENES.__doc__ = """DataFrame containing official gene names from genenames.org."""
 
 FILTERED_GENES: pd.DataFrame = pd.read_csv(join(dirname(__file__), "resources/filtered-genes.csv"))
-OFFICIAL_GENES.__doc__ = """DataFrame containing uninformative genes to filter out, e.g., mitochondrial, ribosomal, IncRNA, TCR and BCR genes."""
+FILTERED_GENES.__doc__ = """DataFrame containing uninformative genes to filter out, e.g., mitochondrial, ribosomal, IncRNA, TCR and BCR genes."""
 
 
 def _calc_scaled_jaccard(markers1: dict[str, set], markers2: dict[str, set]) -> pd.DataFrame:
