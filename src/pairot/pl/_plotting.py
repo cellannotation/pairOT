@@ -110,7 +110,7 @@ def plot_cluster_distance(
     backend: Literal["plotly", "matplotlib"] = "plotly",
 ):
     """
-    Plot cluster distances from :class:`pairot.align.DatasetMapping.compute_cluster_distance`.
+    Plot cluster distances from :class:`pairot.align.DatasetMapping.compute_cluster_distances`.
 
     Parameters
     ----------

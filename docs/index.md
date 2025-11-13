@@ -6,8 +6,8 @@
 :hidden: true
 :maxdepth: 1
 
-introduction.md
 notebooks/index
+introduction.md
 api.md
 changelog.md
 contributing.md
