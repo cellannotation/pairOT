@@ -48,13 +48,16 @@ def downsample_indices(labels: np.ndarray, n_samples: int, random_state: int | N
     Downsample indices stratified by labels.
 
     Downsamples an array of labels and returns the indices to keep.
-    For each unique label, if there are fewer than n_samples, keep all indices; otherwise, randomly sample n_samples indices.
+    For each unique label, if there are fewer than `n_samples`, keep all indices; otherwise, randomly sample `n_samples` indices.
 
     Parameters
     ----------
-        labels: A numpy array or list of labels.
-        n_samples: Minimum number of samples to uniformly sample per label.
-        random_state: Seed for reproducibility (optional).
+        labels:
+            A numpy array or list of labels.
+        n_samples:
+            Minimum number of samples to uniformly sample per label.
+        random_state:
+            Seed for reproducibility (optional).
 
     Returns
     -------

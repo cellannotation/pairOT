@@ -3,26 +3,30 @@
 ## Preprocessing
 
 ```{eval-rst}
-.. module:: pairot.de_testing
+.. module:: pairot.pp
 .. currentmodule:: pairot
 
 .. autosummary::
     :toctree: generated
 
-    de_testing.basic_preproc
-    pp.elaborate_example
+    pp.preprocess_adatas
+    pp.downsample_indices
+    pp.calc_pseudobulk_stats
+    pp.select_and_combine_de_results
+    pp.sort_and_filter_de_genes_ova
+    pp.sort_and_filter_de_genes_ava
 ```
 
-## Tools
+## Align
 
 ```{eval-rst}
-.. module:: pairot.tl
+.. module:: pairot.align
 .. currentmodule:: pairot
 
 .. autosummary::
     :toctree: generated
 
-    tl.basic_tool
+    align.DatasetMapping
 ```
 
 ## Plotting
@@ -34,6 +38,20 @@
 .. autosummary::
     :toctree: generated
 
-    pl.basic_plot
-    pl.BasicClass
+    pl.plot_cluster_mapping
+    pl.plot_cluster_distance
+    pl.plot_sankey
+```
+
+## Resources
+
+```{eval-rst}
+.. module:: pairot.pp
+.. currentmodule:: pairot
+
+.. autosummary::
+    :toctree: generated
+
+    pp.OFFICIAL_GENES
+    pp.FILTERED_GENES
 ```
