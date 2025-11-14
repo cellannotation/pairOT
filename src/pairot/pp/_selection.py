@@ -56,7 +56,11 @@ def sort_and_filter_de_genes_ova(
     gene_filtering: bool = True,
 ) -> dict[str, pd.DataFrame]:
     """
-    Sort and filter the differentially expressed genes for the OVA (one vs. all) setting.
+    Sort and filter differentially expressed genes for the OVA (one vs. all) setting.
+
+    Sort differentially expressed genes by logFC and filter them based on logFC, AUROC, and adjusted p-value thresholds.
+    Additionally, uninformative genes can be filtered out.
+    This functions processes the DE results from the OVA (one = vs. all) setting from :func:`pairot.pp.calc_pseudobulk_stats`.
 
     Parameters
     ----------
@@ -118,7 +122,11 @@ def sort_and_filter_de_genes_ava(
     gene_filtering: bool = True,
 ) -> dict[str, dict[str, pd.DataFrame]]:
     """
-    Sort and filter the differentially expressed genes for the AVA (all vs. all) setting.
+    Sort and filter differentially expressed genes for the AVA (all vs. all) setting.
+
+    Sort differentially expressed genes by logFC and filter them based on logFC, AUROC, and adjusted p-value thresholds.
+    Additionally, uninformative genes can be filtered out.
+    This functions processes the DE results from the AVA (all vs. all) setting from :func:`pairot.pp.calc_pseudobulk_stats`.
 
     Parameters
     ----------
@@ -189,6 +197,9 @@ def select_and_combine_de_results(
 ) -> dict[str, pd.DataFrame]:
     """
     Select and combine DE results from OVA (one vs. all) and AVA (all vs. all) settings.
+
+    This function combines the OVA (one vs. all) and AVA (all vs. all) DE results by selecting the top DE genes from both settings.
+    The AVA results only get added for clusters that are similar enough based on the Jaccard overlap of their top OVA DE genes.
 
     de_res_ova
         OVA (one vs. all) DE results from :func:`pairot.pp.sort_and_filter_de_genes_ova`.
