@@ -453,14 +453,14 @@ class DatasetMapping:
         Parameters
         ----------
             tau_a
-                If < 1, defines how much unbalanced the problem is on the first marginal.
+                If < 1., defines how unbalanced the problem is on the first marginal.
             tau_b
-                If < 1, defines how much unbalanced the problem is on the second marginal.
+                If < 1., defines how unbalanced the problem is on the second marginal.
             marginals_distribution
                 Whether the marginals should be uniform or balanced by cell-type frequency.
-                Use "uniform" for uniform marginals. Meaning, each cell contributes the same mass to the marginal distribution.
-                Use "balanced" for marginals balanced by cell-type frequency. Meaning, each cell-type contributes the same mass to the marginal distribution.
-                This parameter is ignored, if marginals 'a' or 'b' are supplied via the **kwargs.
+                Use `uniform` for uniform marginals. Meaning, each cell contributes the same mass to the marginal distribution.
+                Use `balanced` for marginals balanced by cell-type frequency. Meaning, each cell-type contributes the same mass to the marginal distribution.
+                This parameter is ignored, if marginals `a` or `b` are supplied via the `**kwargs`.
             kwargs
                 Keyword arguments passed to :class:`ott.problems.linear.linear_problem.LinearProblem`.
         """
