@@ -10,10 +10,10 @@ from pairot.pp._utils import _get_expressed_genes_intersection, _get_shared_high
 def preprocess_adatas(
     adata1: anndata.AnnData,
     adata2: anndata.AnnData,
-    cell_type_column_adata1: str = "cell_type_author",
-    cell_type_column_adata2: str = "cell_type_author",
-    sample_column_adata1: str = "sample_id",
-    sample_column_adata2: str = "sample_id",
+    cell_type_column_adata1: str,
+    cell_type_column_adata2: str,
+    sample_column_adata1: str,
+    sample_column_adata2: str,
     n_top_genes: int = 500,
     filter_genes: bool = False,
     n_samples_auroc: int = 10_000,
@@ -55,9 +55,9 @@ def preprocess_adatas(
         >>> import anndata as ad
         >>> from pairot.pp import preprocess_adatas
         >>>
-        >>> adata1 = ad.read_h5ad("path/to/query_data.h5ad")
-        >>> adata2 = ad.read_h5ad("path/to/ref_data.h5ad")
-        >>> adata1, adata2 = preprocess_adatas(
+        >>> adata_query = ad.read_h5ad("path/to/query_data.h5ad")
+        >>> adata_ref = ad.read_h5ad("path/to/ref_data.h5ad")
+        >>> adata_query, adata_ref = preprocess_adatas(
         >>>     adata1,
         >>>     adata2,
         >>>     cell_type_column_adata1="cell_type_col_adata1",
@@ -104,8 +104,12 @@ def preprocess_adatas(
     print(f"adata2: {adata2.shape}")
     # calculate DE genes
     print("Calculating differentially-expressed genes...")
-    adata1.uns["de_res_ova"], adata1.uns["de_res_ava"] = calc_pseudobulk_stats(adata1, n_samples_auroc=n_samples_auroc)
-    adata2.uns["de_res_ova"], adata2.uns["de_res_ava"] = calc_pseudobulk_stats(adata2, n_samples_auroc=n_samples_auroc)
+    adata1.uns["de_res_ova"], adata1.uns["de_res_ava"] = calc_pseudobulk_stats(
+        adata1, cluster_label="cell_type_author", sample_label="sample_id", n_samples_auroc=n_samples_auroc
+    )
+    adata2.uns["de_res_ova"], adata2.uns["de_res_ava"] = calc_pseudobulk_stats(
+        adata2, cluster_label="cell_type_author", sample_label="sample_id", n_samples_auroc=n_samples_auroc
+    )
     # subset to highly variable genes for Spearman correlation
     print("Sub-setting to highly variable genes...")
     if n_samples_hvg_selection is None:
