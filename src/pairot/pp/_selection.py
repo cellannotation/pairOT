@@ -56,7 +56,7 @@ def sort_and_filter_de_genes_ova(
     gene_filtering: bool = True,
 ) -> dict[str, pd.DataFrame]:
     """
-    Sort and filter DEGs for the OVA (one vs. all) setting.
+    Sort and filter DEGs for the OVA (one vs all) setting.
 
     Sort differentially expressed genes (DEGs) by logFC and filter them based on logFC, AUROC, and adjusted p-value thresholds.
     Additionally, uninformative genes can be filtered out.
@@ -122,7 +122,7 @@ def sort_and_filter_de_genes_ava(
     gene_filtering: bool = True,
 ) -> dict[str, dict[str, pd.DataFrame]]:
     """
-    Sort and filter DEGs for the AVA (all vs. all) setting.
+    Sort and filter DEGs for the AVA (all vs all) setting.
 
     Sort differentially expressed genes (DEGs) by logFC and filter them based on logFC, AUROC, and adjusted p-value thresholds.
     Additionally, uninformative genes can be filtered out.
