@@ -196,7 +196,7 @@ def select_and_combine_de_results(
     remove_duplicated_genes: bool = True,
 ) -> dict[str, pd.DataFrame]:
     """
-    Select and combine DE results from OVA and AVA settings.
+    Select and combine DE results from OVA (one vs all) and AVA (all vs all) settings.
 
     Function combines the OVA (one vs. all) and AVA (all vs. all) DE results by selecting the top DE genes from both settings.
     The AVA results only get added for clusters that are similar enough based on the Jaccard overlap of their top OVA DE genes.
