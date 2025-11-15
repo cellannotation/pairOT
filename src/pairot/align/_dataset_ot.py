@@ -592,12 +592,12 @@ class DatasetMapping:
             total_transport_mass = jnp.sum(transport)
             if total_transport_mass > 1e-16:
                 transport /= total_transport_mass
-                weighted_cost = jnp.sum(cost * transport)
+                cost = jnp.sum(cost * transport)
             else:
                 # if no mass is being transported -> take average cost without weighting
-                weighted_cost = jnp.mean(cost)
+                cost = jnp.mean(cost)
 
-            return weighted_cost
+            return cost
 
         x_label_np, y_label_np = self._get_label_vectors()
         unique_labels_x, unique_labels_y = np.unique(x_label_np), np.unique(y_label_np)
