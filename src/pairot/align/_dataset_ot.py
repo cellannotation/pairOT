@@ -582,6 +582,24 @@ class DatasetMapping:
         """
         self._assert_fully_initialized()
 
+        @jax.jit
+        def _compute_weighted_transport_cost(idxs_x, idxs_y):
+            geom_subset = self.geom.subset(idxs_x, idxs_y)
+            transport = geom_subset.transport_from_potentials(
+                self.ot_solution.f[idxs_x],
+                self.ot_solution.g[idxs_y],
+            )
+            cost = self.geom.cost_fn.all_pairs(self.geom.x[idxs_x, :], self.geom.y[idxs_y, :])
+            total_transport_mass = jnp.sum(transport)
+            if total_transport_mass > 1e-16:
+                transport /= total_transport_mass
+                weighted_cost = jnp.sum(cost * transport)
+            else:
+                # if no mass is being transported -> take average cost without weighting
+                weighted_cost = jnp.mean(cost)
+
+            return weighted_cost
+
         x_label_np, y_label_np = self._get_label_vectors()
         unique_labels_x, unique_labels_y = np.unique(x_label_np), np.unique(y_label_np)
         with tqdm.tqdm(total=len(unique_labels_x) * len(unique_labels_y)) as pbar:
@@ -590,19 +608,7 @@ class DatasetMapping:
                 for label_y in unique_labels_y:
                     idxs_label_x = _select_idxs(x_label_np, label_x, n_samples)
                     idxs_label_y = _select_idxs(y_label_np, label_y, n_samples)
-                    geom_subset = self.geom.subset(idxs_label_x, idxs_label_y)
-                    transport = geom_subset.transport_from_potentials(
-                        self.ot_solution.f[idxs_label_x],
-                        self.ot_solution.g[idxs_label_y],
-                    )
-                    cost = self.geom.cost_fn.all_pairs(self.geom.x[idxs_label_x, :], self.geom.y[idxs_label_y, :])
-                    total_transport_mass = jnp.sum(transport)
-                    if total_transport_mass > 1e-16:
-                        transport /= total_transport_mass
-                        weighted_cost[label_x, label_y] = jnp.sum(cost * transport)
-                    else:
-                        # if no mass is being transported -> take average cost without weighting
-                        weighted_cost[label_x, label_y] = jnp.mean(cost)
+                    weighted_cost[label_x, label_y] = _compute_weighted_transport_cost(idxs_label_x, idxs_label_y)
                     pbar.update()
 
         return pd.DataFrame(
