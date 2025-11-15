@@ -330,11 +330,11 @@ def calc_pseudobulk_stats(
     """
     Calculate pseudobulk DE statistics using limmaR package.
 
-    See :func:`pairot.pp.sort_and_filter_de_genes_ova` for downstream processing of the OVA (one vs. all) DE results.
+    See :func:`pairot.pp.filter_genes_ova` for downstream processing of the OVA (one vs. all) DE results.
 
-    See :func:`pairot.pp.sort_and_filter_de_genes_ava` for downstream processing of the AVA (all vs. all) DE results.
+    See :func:`pairot.pp.filter_genes_ava` for downstream processing of the AVA (all vs. all) DE results.
 
-    See :func:`pairot.pp.select_and_combine_de_results` for combining OVA and AVA DE results.
+    See :func:`pairot.pp.select_genes` for combining OVA and AVA DE results.
 
     Parameters
     ----------

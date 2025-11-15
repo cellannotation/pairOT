@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 
 from pairot.pp import (
-    select_and_combine_de_results,
-    sort_and_filter_de_genes_ava,
-    sort_and_filter_de_genes_ova,
+    filter_genes_ava,
+    filter_genes_ova,
+    select_genes,
 )
 
 
@@ -84,15 +84,15 @@ def _compute_label_distance_matrix(
     _check_de_results(adata1, "cell_type_author")
     _check_de_results(adata2, "cell_type_author")
 
-    de_genes_adata1 = select_and_combine_de_results(
-        sort_and_filter_de_genes_ova(
+    de_genes_adata1 = select_genes(
+        filter_genes_ova(
             adata1.uns["de_res_ova"],
             aucroc_threshold=auroc_threshold,
             adj_pval_threshold=adj_p_val_threshold,
             logfc_threshold=logfc_threshold,
             gene_filtering=gene_filtering,
         ),
-        sort_and_filter_de_genes_ava(
+        filter_genes_ava(
             adata1.uns["de_res_ava"],
             aucroc_threshold=auroc_threshold,
             adj_pval_threshold=adj_p_val_threshold,
@@ -104,15 +104,15 @@ def _compute_label_distance_matrix(
         overlap_threshold=overlap_threshold,
         overlap_n_genes=overlap_n_genes,
     )
-    de_genes_adata2 = select_and_combine_de_results(
-        sort_and_filter_de_genes_ova(
+    de_genes_adata2 = select_genes(
+        filter_genes_ova(
             adata2.uns["de_res_ova"],
             aucroc_threshold=auroc_threshold,
             adj_pval_threshold=adj_p_val_threshold,
             logfc_threshold=logfc_threshold,
             gene_filtering=gene_filtering,
         ),
-        sort_and_filter_de_genes_ava(
+        filter_genes_ava(
             adata2.uns["de_res_ava"],
             aucroc_threshold=auroc_threshold,
             adj_pval_threshold=adj_p_val_threshold,

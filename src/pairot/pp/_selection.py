@@ -48,7 +48,7 @@ def _filter_de_genes(de_res: dict[str, pd.DataFrame]):
     return de_res_return
 
 
-def sort_and_filter_de_genes_ova(
+def filter_genes_ova(
     de_res: dict[str, pd.DataFrame],
     logfc_threshold: float = 1.0,
     aucroc_threshold: float = 0.6,
@@ -82,13 +82,13 @@ def sort_and_filter_de_genes_ova(
 
     Examples
     --------
-    >>> from pairot.pp import calc_pseudobulk_stats, sort_and_filter_de_genes_ova
+    >>> from pairot.pp import calc_pseudobulk_stats, filter_genes_ova
     >>> de_res_ova, de_res_ava = calc_pseudobulk_stats(
     >>>     adata,
     >>>     cluster_label="cell_type_col",
     >>>     sample_label="sample_col",
     >>> )
-    >>> de_res_ova_sorted_and_filtered = sort_and_filter_de_genes_ova(
+    >>> de_res_ova_sorted_and_filtered = filter_genes_ova(
     >>>     de_res_ova,
     >>>     logfc_threshold=1.0,
     >>>     aucroc_threshold=0.6,
@@ -114,7 +114,7 @@ def sort_and_filter_de_genes_ova(
     return top_de_genes_ova
 
 
-def sort_and_filter_de_genes_ava(
+def filter_genes_ava(
     de_res: dict[str, dict[str, pd.DataFrame]],
     logfc_threshold: float = 1.0,
     aucroc_threshold: float = 0.6,
@@ -148,13 +148,13 @@ def sort_and_filter_de_genes_ava(
 
     Examples
     --------
-    >>> from pairot.pp import calc_pseudobulk_stats, sort_and_filter_de_genes_ava
+    >>> from pairot.pp import calc_pseudobulk_stats, filter_genes_ava
     >>> de_res_ova, de_res_ava = calc_pseudobulk_stats(
     >>>     adata,
     >>>     cluster_label="cell_type_col",
     >>>     sample_label="sample_col",
     >>> )
-    >>> de_res_ava_sorted_and_filtered = sort_and_filter_de_genes_ava(
+    >>> de_res_ava_sorted_and_filtered = filter_genes_ava(
     >>>     de_res_ava,
     >>>     logfc_threshold=1.0,
     >>>     aucroc_threshold=0.6,
@@ -185,7 +185,7 @@ def sort_and_filter_de_genes_ava(
     return top_de_genes_ava
 
 
-def select_and_combine_de_results(
+def select_genes(
     de_res_ova: dict[str, pd.DataFrame],
     de_res_ava: dict[str, dict[str, pd.DataFrame]],
     n_genes_ova: int | None = 10,
@@ -202,9 +202,9 @@ def select_and_combine_de_results(
     The AVA results only get added for clusters that are similar enough based on the Jaccard overlap of their top OVA DE genes.
 
     de_res_ova
-        OVA (one vs. all) DE results from :func:`pairot.pp.sort_and_filter_de_genes_ova`.
+        OVA (one vs. all) DE results from :func:`pairot.pp.filter_genes_ova`.
     de_res_ava
-        AVA (all vs. all) DE results from :func:`pairot.pp.sort_and_filter_de_genes_ava`.
+        AVA (all vs. all) DE results from :func:`pairot.pp.filter_genes_ava`.
     n_genes_ova
         Number of top DE genes to select from the OVA results for each cluster.
     n_genes_ava
@@ -228,30 +228,30 @@ def select_and_combine_de_results(
     --------
     >>> from pairot.pp import (
     >>>     calc_pseudobulk_stats,
-    >>>     sort_and_filter_de_genes_ova,
-    >>>     sort_and_filter_de_genes_ava,
-    >>>     select_and_combine_de_results
+    >>>     filter_genes_ova,
+    >>>     filter_genes_ava,
+    >>>     select_genes
     >>> )
     >>> de_res_ova, de_res_ava = calc_pseudobulk_stats(
     >>>     adata,
     >>>     cluster_label="cell_type_col",
     >>>     sample_label="sample_col",
     >>> )
-    >>> de_res_ova_sorted_and_filtered = sort_and_filter_de_genes_ova(
+    >>> de_res_ova_sorted_and_filtered = filter_genes_ova(
     >>>     de_res_ova,
     >>>     logfc_threshold=1.0,
     >>>     aucroc_threshold=0.6,
     >>>     adj_pval_threshold=0.05,
     >>>     gene_filtering=True,
     >>> )
-    >>> de_res_ava_sorted_and_filtered = sort_and_filter_de_genes_ava(
+    >>> de_res_ava_sorted_and_filtered = filter_genes_ava(
     >>>     de_res_ava,
     >>>     logfc_threshold=1.0,
     >>>     aucroc_threshold=0.6,
     >>>     adj_pval_threshold=0.05,
     >>>     gene_filtering=True,
     >>> )
-    >>> combined_de_results = select_and_combine_de_results(
+    >>> combined_de_results = select_genes(
     >>>     de_res_ova_sorted_and_filtered,
     >>>     de_res_ava_sorted_and_filtered,
     >>>     n_genes_ova=10,

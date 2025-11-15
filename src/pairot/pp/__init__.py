@@ -13,9 +13,9 @@ from ._preprocessing import preprocess_adatas
 from ._selection import (
     FILTERED_GENES,
     OFFICIAL_GENES,
-    select_and_combine_de_results,
-    sort_and_filter_de_genes_ava,
-    sort_and_filter_de_genes_ova,
+    filter_genes_ava,
+    filter_genes_ova,
+    select_genes,
 )
 from ._testing import calc_pseudobulk_stats
 from ._utils import downsample_indices
@@ -24,9 +24,9 @@ __all__ = [
     "preprocess_adatas",
     "downsample_indices",
     "calc_pseudobulk_stats",
-    "select_and_combine_de_results",
-    "sort_and_filter_de_genes_ova",
-    "sort_and_filter_de_genes_ava",
+    "select_genes",
+    "filter_genes_ova",
+    "filter_genes_ava",
     "OFFICIAL_GENES",
     "FILTERED_GENES",
 ]

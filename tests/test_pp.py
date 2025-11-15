@@ -7,10 +7,10 @@ from pairot.pp import (
     FILTERED_GENES,
     OFFICIAL_GENES,
     downsample_indices,
+    filter_genes_ava,
+    filter_genes_ova,
     preprocess_adatas,
-    select_and_combine_de_results,
-    sort_and_filter_de_genes_ava,
-    sort_and_filter_de_genes_ova,
+    select_genes,
 )
 
 
@@ -77,14 +77,14 @@ def test_preprocess_adatas(
 @pytest.mark.parametrize("logfc", [1.0])
 @pytest.mark.parametrize("adj_pval", [0.1])
 @pytest.mark.parametrize("auroc", [0.5])
-def test_sort_and_filter_de_genes_ova(
+def test_filter_genes_ova(
     pseudobulk_results,
     logfc: float,
     adj_pval: float,
     auroc: float,
 ):
     de_res_ova, _ = pseudobulk_results
-    de_res_ova = sort_and_filter_de_genes_ova(
+    de_res_ova = filter_genes_ova(
         de_res_ova,
         logfc_threshold=logfc,
         adj_pval_threshold=adj_pval,
@@ -103,14 +103,14 @@ def test_sort_and_filter_de_genes_ova(
 @pytest.mark.parametrize("logfc", [1.0])
 @pytest.mark.parametrize("adj_pval", [0.1])
 @pytest.mark.parametrize("auroc", [0.5])
-def test_sort_and_filter_de_genes_ava(
+def test_filter_genes_ava(
     pseudobulk_results,
     logfc: float,
     adj_pval: float,
     auroc: float,
 ):
     _, de_res_ava = pseudobulk_results
-    de_res_ava = sort_and_filter_de_genes_ava(
+    de_res_ava = filter_genes_ava(
         de_res_ava,
         logfc_threshold=logfc,
         adj_pval_threshold=adj_pval,
@@ -127,17 +127,13 @@ def test_sort_and_filter_de_genes_ava(
             )
 
 
-def test_select_and_combine_de_results(pseudobulk_results):
+def test_select_genes(pseudobulk_results):
     n_genes_ova = 10
     n_genes_ava = 3
     de_res_ova, de_res_ava = pseudobulk_results
-    de_res_ova = sort_and_filter_de_genes_ova(
-        de_res_ova, logfc_threshold=0.0, aucroc_threshold=0.0, adj_pval_threshold=1.0
-    )
-    de_res_ava = sort_and_filter_de_genes_ava(de_res_ava)
-    de_res_combined = select_and_combine_de_results(
-        de_res_ova, de_res_ava, n_genes_ova=n_genes_ova, n_genes_ava=n_genes_ava
-    )
+    de_res_ova = filter_genes_ova(de_res_ova, logfc_threshold=0.0, aucroc_threshold=0.0, adj_pval_threshold=1.0)
+    de_res_ava = filter_genes_ava(de_res_ava)
+    de_res_combined = select_genes(de_res_ova, de_res_ava, n_genes_ova=n_genes_ova, n_genes_ava=n_genes_ava)
 
     for df in de_res_combined.values():
         assert "logFC" in df.columns

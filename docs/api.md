@@ -12,9 +12,9 @@
     pp.preprocess_adatas
     pp.downsample_indices
     pp.calc_pseudobulk_stats
-    pp.select_and_combine_de_results
-    pp.sort_and_filter_de_genes_ova
-    pp.sort_and_filter_de_genes_ava
+    pp.filter_genes_ova
+    pp.filter_genes_ava
+    pp.select_genes
 ```
 
 ## Align
