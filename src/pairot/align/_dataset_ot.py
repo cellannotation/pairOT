@@ -582,14 +582,13 @@ class DatasetMapping:
         """
         self._assert_fully_initialized()
 
-        @jax.jit
         def _compute_weighted_transport_cost(idxs_x, idxs_y):
             geom_subset = self.geom.subset(idxs_x, idxs_y)
-            transport = geom_subset.transport_from_potentials(
+            transport = jax.jit(geom_subset.transport_from_potentials)(
                 self.ot_solution.f[idxs_x],
                 self.ot_solution.g[idxs_y],
             )
-            cost = self.geom.cost_fn.all_pairs(self.geom.x[idxs_x, :], self.geom.y[idxs_y, :])
+            cost = jax.jit(self.geom.cost_fn.all_pairs)(self.geom.x[idxs_x, :], self.geom.y[idxs_y, :])
             total_transport_mass = jnp.sum(transport)
             if total_transport_mass > 1e-16:
                 transport /= total_transport_mass
