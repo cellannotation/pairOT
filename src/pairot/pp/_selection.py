@@ -60,7 +60,7 @@ def filter_genes_ova(
 
     Sort differentially expressed genes (DEGs) by logFC and filter them based on logFC, AUROC, and adjusted p-value thresholds.
     Additionally, uninformative genes can be filtered out.
-    This functions processes the DE results from the OVA (one = vs. all) setting from :func:`pairot.pp.calc_pseudobulk_stats`.
+    This functions processes the DE results from the OVA (one = vs. all) setting from :func:`pairot.pp.rank_genes_limma`.
 
     Parameters
     ----------
