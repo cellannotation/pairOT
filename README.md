@@ -9,8 +9,8 @@
 [![Tests][badge-tests]][tests]
 [![Documentation][badge-docs]][documentation]
 
-[badge-tests]: https://img.shields.io/github/actions/workflow/status/cellannotation/pairOT_package/test.yaml?branch=main
-[badge-docs]: https://img.shields.io/readthedocs/pairOT_package
+[badge-tests]: https://img.shields.io/github/actions/workflow/status/cellannotation/pairOT/test.yaml?branch=main
+[badge-docs]: https://img.shields.io/readthedocs/pairOT
 
 # pairOT: Identifying similar cell types and states across single-cell transcriptomic studies
 Align cell annotations across two datasets through annotation-informed optimal transport.
@@ -22,17 +22,17 @@ in particular, the [API documentation][].
 
 
 ## Installation
-For detailed installation instructions, please refer to the [installation guide](docs/installation.md).
+For detailed installation instructions, please refer to the [installation guide][].
 
 
 ## Tutorial
 Please take a look at the following tutorials for detailed examples on how to use pairOT:
 
 ### Detailed explanation
-For a detailed tutorial, please see the [in depth tutorial](https://github.com/cellannotation/pairOT_package/blob/main/docs/notebooks/Tutorial.ipynb).
+For a detailed tutorial, please see the [in depth tutorial](https://github.com/cellannotation/pairOT/blob/main/docs/notebooks/Tutorial.ipynb).
 
 ### Speed up pairOT computations
-For details on how to speed up pairOT model fits and reduce compute requirements, see the [reduce compute requirements tutorial](https://github.com/cellannotation/pairOT_package/blob/main/docs/notebooks/Reduce%20Compute%20Requirements.ipynb)
+For details on how to speed up pairOT model fits and reduce compute requirements, see the [reduce compute requirements tutorial](https://github.com/cellannotation/pairOT/blob/main/docs/notebooks/Reduce%20Compute%20Requirements.ipynb)
 
 
 ## Basics of using pairOT
@@ -86,9 +86,9 @@ If you found a bug, please use the [issue tracker][].
 Support for software development, testing, modeling, and benchmarking provided by the Cell Annotation Platform team
 (Roman Mukhin)
 
-[uv]: https://github.com/astral-sh/uv
-[issue tracker]: https://github.com/cellannotation/pairOT_package/issues
-[tests]: https://github.com/cellannotation/pairot/actions/workflows/test.yaml
-[documentation]: https://pairOT_package.readthedocs.io
-[changelog]: https://pairOT_package.readthedocs.io/en/latest/changelog.html
-[api documentation]: https://pairOT_package.readthedocs.io/en/latest/api.html
+[installation guide]: https://pairOT.readthedocs.io/en/latest/installation.html
+[issue tracker]: https://github.com/cellannotation/pairOT/issues
+[tests]: https://github.com/cellannotation/pairOT/actions/workflows/test.yaml
+[documentation]: https://pairOT.readthedocs.io
+[changelog]: https://pairOT.readthedocs.io/en/latest/changelog.html
+[api documentation]: https://pairOT.readthedocs.io/en/latest/api.html

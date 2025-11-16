@@ -1,7 +1,7 @@
 # Installation
 
 You need to have Python 3.12 or newer installed on your system.
-If you don't have Python installed, we recommend installing [uv][].
+If you don't have Python installed, we recommend installing [uv](https://github.com/astral-sh/uv).
 
 ## Running pairOT via Docker
 To run pairOT, we provide a [docker image](https://hub.docker.com/r/felix0097/pairot/tags) that contains all the necessary dependencies:
