@@ -21,6 +21,10 @@ Please refer to the [documentation][],
 in particular, the [API documentation][].
 
 
+## Installation
+For detailed installation instructions, please refer to the [installation guide](docs/installation.md).
+
+
 ## Tutorial
 Please take a look at the following tutorials for detailed examples on how to use pairOT:
 
@@ -66,11 +70,6 @@ distance = distance.loc[
 ]  # order cluster distance matrix the same way as similarity matrix
 pr.pl.distance(distance)  # cluster distance matrix
 ```
-
-
-## Installation
-For detailed installation instructions, please refer to the [installation guide](docs/installation.md).
-
 
 ## Release notes
 See the [changelog][].
