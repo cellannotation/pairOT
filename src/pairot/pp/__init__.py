@@ -17,13 +17,13 @@ from ._selection import (
     filter_genes_ova,
     select_genes,
 )
-from ._testing import calc_pseudobulk_stats
+from ._testing import rank_genes_limma
 from ._utils import downsample_indices
 
 __all__ = [
     "preprocess_adatas",
     "downsample_indices",
-    "calc_pseudobulk_stats",
+    "rank_genes_limma",
     "select_genes",
     "filter_genes_ova",
     "filter_genes_ava",

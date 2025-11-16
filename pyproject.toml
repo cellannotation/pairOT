@@ -64,7 +64,7 @@ optional-dependencies.test = [
   "pytest-cov",     # For VS Code’s coverage functionality
 ]
 # https://docs.pypi.org/project_metadata/#project-urls
-urls.Documentation = "https://pairOT_package.readthedocs.io/"
+urls.Documentation = "https://pairOT.readthedocs.io/"
 urls.Homepage = "https://github.com/cellannotation/pairot"
 urls.Source = "https://github.com/cellannotation/pairot"
 

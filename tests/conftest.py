@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from scanpy.datasets import pbmc68k_reduced
 
-from pairot.pp import calc_pseudobulk_stats, preprocess_adatas
+import pairot as pr
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ def adata_query_and_ref():
 def adata_query_and_ref_preprocessed(adata_query_and_ref):
     adata_query, adata_ref = adata_query_and_ref
 
-    return preprocess_adatas(
+    return pr.pp.preprocess_adatas(
         adata_query,
         adata_ref,
         cell_type_column_adata1="bulk_labels",
@@ -41,7 +41,7 @@ def adata_query_and_ref_preprocessed(adata_query_and_ref):
 
 
 @pytest.fixture
-def pseudobulk_results(adata_query_and_ref):
-    return calc_pseudobulk_stats(
+def rank_genes_limma_results(adata_query_and_ref):
+    return pr.pp.rank_genes_limma(
         adata_query_and_ref[0], cluster_label="bulk_labels", sample_label="sample_id", n_samples_auroc=100
     )

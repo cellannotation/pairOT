@@ -1,5 +1,11 @@
 # API
 
+Import pairOT as:
+
+```python
+import pairot as pr
+```
+
 ## Preprocessing
 
 ```{eval-rst}
@@ -11,22 +17,22 @@
 
     pp.preprocess_adatas
     pp.downsample_indices
-    pp.calc_pseudobulk_stats
+    pp.rank_genes_limma
     pp.filter_genes_ova
     pp.filter_genes_ava
     pp.select_genes
 ```
 
-## Align
+## Tools
 
 ```{eval-rst}
-.. module:: pairot.align
+.. module:: pairot.tl
 .. currentmodule:: pairot
 
 .. autosummary::
     :toctree: generated
 
-    align.DatasetMapping
+    tl.DatasetMap
 ```
 
 ## Plotting
@@ -38,9 +44,9 @@
 .. autosummary::
     :toctree: generated
 
-    pl.plot_cluster_mapping
-    pl.plot_cluster_distance
-    pl.plot_sankey
+    pl.mapping
+    pl.distance
+    pl.sankey
 ```
 
 ## Resources

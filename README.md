@@ -9,47 +9,40 @@
 [![Tests][badge-tests]][tests]
 [![Documentation][badge-docs]][documentation]
 
-[badge-tests]: https://img.shields.io/github/actions/workflow/status/cellannotation/pairOT_package/test.yaml?branch=main
-[badge-docs]: https://img.shields.io/readthedocs/pairOT_package
+[badge-tests]: https://img.shields.io/github/actions/workflow/status/cellannotation/pairOT/test.yaml?branch=main
+[badge-docs]: https://img.shields.io/readthedocs/pairOT
 
 # pairOT: Identifying similar cell types and states across single-cell transcriptomic studies
-
 Align cell annotations across two datasets through annotation-informed optimal transport.
 
-- [Getting started](#getting-started)
-- [Tutorial](#tutorial)
-- [Basics of using pairOT](#basics-of-using-pairOT)
-- [Installation](#installation)
-  - [Running pairOT via Docker](#running-pairOT-via-docker)
-  - [Install pairOT via pip](#install-pairOT-via-pip)
-- [Citation](#citation)
-- [References](#references)
 
 ## Getting started
-
 Please refer to the [documentation][],
 in particular, the [API documentation][].
+
+
+## Installation
+For detailed installation instructions, please refer to the [installation guide][].
 
 
 ## Tutorial
 Please take a look at the following tutorials for detailed examples on how to use pairOT:
 
 ### Detailed explanation
-For a detailed tutorial, please see the [in depth tutorial](https://github.com/cellannotation/pairOT_package/blob/main/docs/notebooks/Tutorial.ipynb).
+For a detailed tutorial, please see the [in depth tutorial](https://github.com/cellannotation/pairOT/blob/main/docs/notebooks/Tutorial.ipynb).
 
 ### Speed up pairOT computations
-For details on how to speed up pairOT model fits and reduce compute requirements, see the [reduce compute requirements tutorial](https://github.com/cellannotation/pairOT_package/blob/main/docs/notebooks/Reduce%20Compute%20Requirements.ipynb)
+For details on how to speed up pairOT model fits and reduce compute requirements, see the [reduce compute requirements tutorial](https://github.com/cellannotation/pairOT/blob/main/docs/notebooks/Reduce%20Compute%20Requirements.ipynb)
 
 
 ## Basics of using pairOT
 
 ```python
 import scanpy as sc
-
-from pairot.pp import preprocess_adatas
+import pairot as pr
 
 # 1. Preprocess input data
-adata_query, adata_ref = preprocess_adatas(
+adata_query, adata_ref = pr.pp.preprocess_adatas(
     sc.read_h5ad("path/to/query.h5ad"),
     sc.read_h5ad("path/to/reference.h5ad"),
     n_top_genes=750,
@@ -60,116 +53,31 @@ adata_query, adata_ref = preprocess_adatas(
 )
 
 # 2. Initialize pairOT model
-from pairot.align import DatasetMapping
-
-dataset_map = DatasetMapping(adata_query, adata_ref)
+dataset_map = pr.tl.DatasetMap(adata_query, adata_ref)
 dataset_map.init_geom(batch_size=512, epsilon=0.05)
 dataset_map.init_problem(tau_a=1.0, tau_b=1.0)
 
 # 3. Fit pairOT model
 dataset_map.solve()
-mapping = dataset_map.compute_cluster_mapping(aggregation_method="mean")
-distance = dataset_map.compute_cluster_distances()
+mapping = dataset_map.compute_mapping()
+distance = dataset_map.compute_distance()
 
 # 4. Visualize results
-from pairot.pl import plot_cluster_mapping, plot_cluster_distance
-
-plot_cluster_mapping(mapping)  # similarity matrix
+pr.pl.mapping(mapping)  # similarity matrix
 distance = distance.loc[
     mapping.max(axis=1).sort_values(ascending=False).index.tolist(),
     mapping.max().sort_values(ascending=False).index.tolist(),
 ]  # order cluster distance matrix the same way as similarity matrix
-plot_cluster_distance(distance)  # cluster distance matrix
+pr.pl.distance(distance)  # cluster distance matrix
 ```
-
-
-## Installation
-
-You need to have Python 3.12 or newer installed on your system.
-If you don't have Python installed, we recommend installing [uv][].
-
-### Running pairOT via Docker
-To run pairOT, we provide a [docker image](https://hub.docker.com/r/felix0097/pairot/tags) that contains all the necessary dependencies:
-```bash
-docker pull felix0097/pairot:full_v1
-```
-
-### Install pairOT via pip
-
-#### Install R
-To run the R differential expression testing code (pre-processing), you'll need to install R on your system.
-Make sure to install the latest R version otherwise you might run into compatibility issues with some R packages.
-
-You can either do it via Anaconda:
-```bash
-conda install conda-forge::r-base
-```
-Or install R directly on your system.
-Please refer to the official R documentation for installation instructions: https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html#installing-r
-#### Install pairOT via pip
-```bash
-pip install git+https://github.com/cellannotation/pairot.git@main
-```
-
-By default, the installed JAX version only uses the CPU to make JAX recognize your GPU/TPU,
-see https://docs.jax.dev/en/latest/installation.html#installation
-```bash
-pip install -U "jax[cuda12]"
-```
-
-#### Install R dependencies
-To install the required R dependencies, open a Python console and run the following commands:
-
-```python
-import rpy2.robjects as ro
-
-INSTALL_R_PACKAGES_LATETST = """
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("limma")
-BiocManager::install("rhdf5")
-install.packages("Matrix")
-install.packages("magrittr")
-install.packages("data.table")
-install.packages("glue")
-install.packages("stringr")
-"""
-
-ro.r(INSTALL_R_PACKAGES_LATETST)
-```
-It might take a while to install all R dependencies.
-
-
-**Note:** If you're using `R 4.3` you can install the following package versions:
-```python
-INSTALL_R_PACKAGES = """
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("limma")
-
-install.packages("remotes")
-library(remotes)
-install_version("rhdf5", version = "2.46.1", repos = "https://bioconductor.org/packages/3.18/bioc")
-install_version("Matrix", version = "1.6-0")
-install_version("magrittr", version = "2.0.3")
-install_version("data.table", version = "1.15.4")
-install_version("glue", version = "1.7.0")
-install_version("stringr", version = "1.5.1")
-"""
-```
-
 
 ## Release notes
-
 See the [changelog][].
 
 ## Contact
-
 If you found a bug, please use the [issue tracker][].
 
 ## Citation
-
 > t.b.a
 
 ## References
@@ -178,9 +86,9 @@ If you found a bug, please use the [issue tracker][].
 Support for software development, testing, modeling, and benchmarking provided by the Cell Annotation Platform team
 (Roman Mukhin)
 
-[uv]: https://github.com/astral-sh/uv
-[issue tracker]: https://github.com/cellannotation/pairOT_package/issues
-[tests]: https://github.com/cellannotation/pairot/actions/workflows/test.yaml
-[documentation]: https://pairOT_package.readthedocs.io
-[changelog]: https://pairOT_package.readthedocs.io/en/latest/changelog.html
-[api documentation]: https://pairOT_package.readthedocs.io/en/latest/api.html
+[installation guide]: https://pairOT.readthedocs.io/en/latest/installation.html
+[issue tracker]: https://github.com/cellannotation/pairOT/issues
+[tests]: https://github.com/cellannotation/pairOT/actions/workflows/test.yaml
+[documentation]: https://pairOT.readthedocs.io
+[changelog]: https://pairOT.readthedocs.io/en/latest/changelog.html
+[api documentation]: https://pairOT.readthedocs.io/en/latest/api.html

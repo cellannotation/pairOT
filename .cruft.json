@@ -4,7 +4,7 @@
   "checkout": null,
   "context": {
     "cookiecutter": {
-      "project_name": "pairOT_package",
+      "project_name": "pairOT",
       "package_name": "pairot",
       "project_description": "Align cell annotations across two datasets through annotation-informed optimal transport.",
       "author_full_name": "Felix Fischer",

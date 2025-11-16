@@ -20,7 +20,7 @@ def preprocess_adatas(
     n_samples_hvg_selection: int = 100_000,
 ) -> tuple[anndata.AnnData, anndata.AnnData]:
     """
-    Function for pre-processing the input AnnData objects for usage with :class:`pairot.align.DatasetMapping`.
+    Function for pre-processing the input AnnData objects for usage with :class:`pairot.tl.DatasetMap`.
 
     Function applies the following preprocessing steps:
         1. Subset gene space to genes that are expressed in both datasets.
@@ -44,11 +44,16 @@ def preprocess_adatas(
         n_top_genes
             Number of highly variable genes to use to calculate the Spearman correlation between two cells.
         filter_genes
-            Whether to remove uninformative genes. If true mitochondrial, ribosomal, IncRNA, TCR and BCR genes are removed.
+            Whether to remove uninformative genes.
+            If true mitochondrial, ribosomal, IncRNA, TCR and BCR genes are removed.
         n_samples_auroc
-            Maximum number of samples to use for AUROC calculation. If None, all samples are used. This can drastically reduce computation time for large datasets.
+            Maximum number of samples to use for AUROC calculation.
+            If None, all samples are used.
+            This can drastically reduce computation time for large datasets.
         n_samples_hvg_selection
-            Number of samples to use for highly variable gene selection. If None, all samples are used. This can drastically reduce the memory usage for large datasets.
+            Number of samples to use for highly variable gene selection.
+            If None, all samples are used.
+            This can drastically reduce the memory usage for large datasets.
 
     Examples
     --------
@@ -67,7 +72,7 @@ def preprocess_adatas(
         >>> )
 
     """
-    from pairot.pp._testing import calc_pseudobulk_stats
+    from pairot.pp._testing import rank_genes_limma
 
     adata1.X = adata1.X.astype("float32")
     adata2.X = adata2.X.astype("float32")
@@ -104,10 +109,10 @@ def preprocess_adatas(
     print(f"adata2: {adata2.shape}")
     # calculate DE genes
     print("Calculating differentially-expressed genes...")
-    adata1.uns["de_res_ova"], adata1.uns["de_res_ava"] = calc_pseudobulk_stats(
+    adata1.uns["de_res_ova"], adata1.uns["de_res_ava"] = rank_genes_limma(
         adata1, cluster_label="cell_type_author", sample_label="sample_id", n_samples_auroc=n_samples_auroc
     )
-    adata2.uns["de_res_ova"], adata2.uns["de_res_ava"] = calc_pseudobulk_stats(
+    adata2.uns["de_res_ova"], adata2.uns["de_res_ava"] = rank_genes_limma(
         adata2, cluster_label="cell_type_author", sample_label="sample_id", n_samples_auroc=n_samples_auroc
     )
     # subset to highly variable genes for Spearman correlation

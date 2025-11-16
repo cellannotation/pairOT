@@ -60,12 +60,12 @@ def filter_genes_ova(
 
     Sort differentially expressed genes (DEGs) by logFC and filter them based on logFC, AUROC, and adjusted p-value thresholds.
     Additionally, uninformative genes can be filtered out.
-    This functions processes the DE results from the OVA (one = vs. all) setting from :func:`pairot.pp.calc_pseudobulk_stats`.
+    This functions processes the DE results from the OVA (one = vs. all) setting from :func:`pairot.pp.rank_genes_limma`.
 
     Parameters
     ----------
     de_res
-        OVA (one vs. all) DE results from :func:`pairot.pp.calc_pseudobulk_stats`.
+        OVA (one vs. all) DE results from :func:`pairot.pp.rank_genes_limma`.
     logfc_threshold
         Minimum logFC threshold to consider a gene as differentially expressed. Genes with a smaller logFC will be filtered out.
     aucroc_threshold
@@ -82,13 +82,14 @@ def filter_genes_ova(
 
     Examples
     --------
-    >>> from pairot.pp import calc_pseudobulk_stats, filter_genes_ova
-    >>> de_res_ova, de_res_ava = calc_pseudobulk_stats(
+    >>> import pairot as pr
+    >>>
+    >>> de_res_ova, de_res_ava = pr.pp.rank_genes_limma(
     >>>     adata,
     >>>     cluster_label="cell_type_col",
     >>>     sample_label="sample_col",
     >>> )
-    >>> de_res_ova_sorted_and_filtered = filter_genes_ova(
+    >>> de_res_ova_sorted_and_filtered = pr.pp.filter_genes_ova(
     >>>     de_res_ova,
     >>>     logfc_threshold=1.0,
     >>>     aucroc_threshold=0.6,
@@ -126,12 +127,12 @@ def filter_genes_ava(
 
     Sort differentially expressed genes (DEGs) by logFC and filter them based on logFC, AUROC, and adjusted p-value thresholds.
     Additionally, uninformative genes can be filtered out.
-    This functions processes the DE results from the AVA (all vs. all) setting from :func:`pairot.pp.calc_pseudobulk_stats`.
+    This functions processes the DE results from the AVA (all vs. all) setting from :func:`pairot.pp.rank_genes_limma`.
 
     Parameters
     ----------
     de_res
-        AVA (all vs. all) DE results from :func:`pairot.pp.calc_pseudobulk_stats`.
+        AVA (all vs. all) DE results from :func:`pairot.pp.rank_genes_limma`.
     logfc_threshold
         Minimum logFC threshold to consider a gene as differentially expressed. Genes with a smaller logFC will be filtered out.
     aucroc_threshold
@@ -148,13 +149,14 @@ def filter_genes_ava(
 
     Examples
     --------
-    >>> from pairot.pp import calc_pseudobulk_stats, filter_genes_ava
-    >>> de_res_ova, de_res_ava = calc_pseudobulk_stats(
+    >>> import pairot as pr
+    >>>
+    >>> de_res_ova, de_res_ava = pr.pp.rank_genes_limma(
     >>>     adata,
     >>>     cluster_label="cell_type_col",
     >>>     sample_label="sample_col",
     >>> )
-    >>> de_res_ava_sorted_and_filtered = filter_genes_ava(
+    >>> de_res_ava_sorted_and_filtered = pr.pp.filter_genes_ava(
     >>>     de_res_ava,
     >>>     logfc_threshold=1.0,
     >>>     aucroc_threshold=0.6,
@@ -226,32 +228,28 @@ def select_genes(
 
     Examples
     --------
-    >>> from pairot.pp import (
-    >>>     calc_pseudobulk_stats,
-    >>>     filter_genes_ova,
-    >>>     filter_genes_ava,
-    >>>     select_genes
-    >>> )
-    >>> de_res_ova, de_res_ava = calc_pseudobulk_stats(
+    >>> import pairot as pr
+    >>>
+    >>> de_res_ova, de_res_ava = pr.pp.rank_genes_limma(
     >>>     adata,
     >>>     cluster_label="cell_type_col",
     >>>     sample_label="sample_col",
     >>> )
-    >>> de_res_ova_sorted_and_filtered = filter_genes_ova(
+    >>> de_res_ova_sorted_and_filtered = pr.pp.filter_genes_ova(
     >>>     de_res_ova,
     >>>     logfc_threshold=1.0,
     >>>     aucroc_threshold=0.6,
     >>>     adj_pval_threshold=0.05,
     >>>     gene_filtering=True,
     >>> )
-    >>> de_res_ava_sorted_and_filtered = filter_genes_ava(
+    >>> de_res_ava_sorted_and_filtered = pr.pp.filter_genes_ava(
     >>>     de_res_ava,
     >>>     logfc_threshold=1.0,
     >>>     aucroc_threshold=0.6,
     >>>     adj_pval_threshold=0.05,
     >>>     gene_filtering=True,
     >>> )
-    >>> combined_de_results = select_genes(
+    >>> combined_de_results = pr.pp.select_genes(
     >>>     de_res_ova_sorted_and_filtered,
     >>>     de_res_ava_sorted_and_filtered,
     >>>     n_genes_ova=10,

@@ -6,12 +6,12 @@ def test_package_has_version():
 
 
 def test_imports():
-    from pairot.align import DatasetMapping
-    from pairot.pl import plot_cluster_distance, plot_cluster_mapping, plot_sankey
+    from pairot.pl import distance, mapping, sankey
     from pairot.pp import preprocess_adatas
+    from pairot.tl import DatasetMap
 
     assert preprocess_adatas is not None
-    assert DatasetMapping is not None
-    assert plot_cluster_distance is not None
-    assert plot_cluster_mapping is not None
-    assert plot_sankey is not None
+    assert DatasetMap is not None
+    assert distance is not None
+    assert mapping is not None
+    assert sankey is not None

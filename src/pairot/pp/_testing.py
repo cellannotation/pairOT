@@ -321,14 +321,14 @@ def _extract_ava_de_results(
     return de_res_ava_
 
 
-def calc_pseudobulk_stats(
+def rank_genes_limma(
     adata: anndata.AnnData,
     cluster_label: str,
     sample_label: str,
-    n_samples_auroc: int = None,
+    n_samples_auroc: int | None = 10_000,
 ) -> tuple[dict[str, pd.DataFrame], dict[str, dict[str, pd.DataFrame]]]:
     """
-    Calculate pseudobulk DE statistics using limmaR package.
+    Calculate pseudobulk differential expression (DE) statistics using limmaR package.
 
     See :func:`pairot.pp.filter_genes_ova` for downstream processing of the OVA (one vs. all) DE results.
 
@@ -356,6 +356,17 @@ def calc_pseudobulk_stats(
             Dictionary containing one DataFrame per cluster with OVA (one vs. all) DE results.
         de_res_ava
             Dictionary containing one dictionary per cluster with AVA (all vs. all) DE results.
+
+    Examples
+    --------
+        >>> import pairot as pr
+        >>>
+        >>> # Calculate pseudobulk DE statistics
+        >>> de_res_ova, de_res_ava = pr.pp.rank_genes_limma(
+        ...     adata,
+        ...     cluster_label="cell_type",
+        ...     sample_label="sample_id",
+        ... )
     """
     if not isinstance(adata.X, csr_matrix):
         adata.X = csr_matrix(adata.X)
