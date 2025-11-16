@@ -20,7 +20,7 @@ You can either do it via Anaconda:
 conda install conda-forge::r-base
 ```
 Or install R directly on your system.
-Please refer to the official R documentation for installation instructions: https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html#installing-r
+Please refer to the official R documentation for [installation instructions](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html#installing-r)
 ### Install pairOT via pip
 ```bash
 pip install git+https://github.com/cellannotation/pairot.git@main
