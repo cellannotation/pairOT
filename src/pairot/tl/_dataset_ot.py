@@ -1,5 +1,3 @@
-import pickle
-from os import PathLike
 from typing import Literal
 
 import anndata
@@ -18,8 +16,8 @@ from scipy.spatial.distance import jensenshannon
 from scipy.stats import rankdata
 from sklearn.utils.class_weight import compute_class_weight
 
-from pairot.align._label_distance import _compute_label_distance_matrix
 from pairot.pp import preprocess_adatas
+from pairot.tl._label_distance import _compute_label_distance_matrix
 
 
 def _cosine_distance(x: jnp.ndarray, y: jnp.ndarray):
@@ -121,18 +119,17 @@ class _CellCellTransportCost(ott.geometry.costs.CostFn):
         return cls(**aux_data)
 
 
-class DatasetMapping:
+class DatasetMap:
     """
     Align cell annotations between query and reference dataset using annotation-informed optimal transport.
 
     Examples
     --------
     >>> import scanpy as sc
-    >>>
-    >>> from pairot.pp import preprocess_adatas
+    >>> import pairot as pr
     >>>
     >>> # 1. Preprocess input data
-    >>> adata_query, adata_ref = preprocess_adatas(
+    >>> adata_query, adata_ref = pr.pp.preprocess_adatas(
     >>>     sc.read_h5ad("path/to/query.h5ad"),
     >>>     sc.read_h5ad("path/to/reference.h5ad"),
     >>>     n_top_genes=750,
@@ -143,26 +140,22 @@ class DatasetMapping:
     >>> )
     >>>
     >>> # 2. Initialize pairOT model
-    >>> from pairot.align import DatasetMapping
-    >>>
-    >>> dataset_map = DatasetMapping(adata_query, adata_ref)
+    >>> dataset_map = pr.tl.DatasetMap(adata_query, adata_ref)
     >>> dataset_map.init_geom(batch_size=512, epsilon=0.05)
     >>> dataset_map.init_problem(tau_a=1.0, tau_b=1.0)
     >>>
     >>> # 3. Fit pairOT model
     >>> dataset_map.solve()
-    >>> mapping = dataset_map.compute_cluster_mapping(aggregation_method="mean")
-    >>> distance = dataset_map.compute_cluster_distances()
+    >>> mapping = dataset_map.compute_mapping()
+    >>> distance = dataset_map.compute_distance()
     >>>
     >>> # 4. Visualize results
-    >>> from pairot.pl import plot_cluster_mapping, plot_cluster_distance
-    >>>
-    >>> plot_cluster_mapping(mapping)  # similarity matrix
+    >>> pr.pl.mapping(mapping)  # similarity matrix
     >>> distance = distance.loc[
     >>>     mapping.max(axis=1).sort_values(ascending=False).index.tolist(),
     >>>     mapping.max().sort_values(ascending=False).index.tolist(),
     >>> ]  # order cluster distance matrix the same way as similarity matrix
-    >>> plot_cluster_distance(distance)  # cluster distance matrix
+    >>> pr.pl.distance(distance)  # cluster distance matrix
     """
 
     def __init__(self, adata1: anndata.AnnData, adata2: anndata.AnnData):
@@ -204,28 +197,28 @@ class DatasetMapping:
                             assert col in adata.uns["de_res_ava"][ct][ct2].columns
 
     @property
-    def DEGs_label_distance_matrix(self):
+    def DEGs_label_distance(self) -> dict[str, dict[str, pd.DataFrame]]:
         """Return DEGs (differentially expressed genes) based on which label distance matrix is computed."""
         self._assert_geom_initialized()
         return self._used_genes
 
     @property
-    def label_distance_matrix(self):
+    def label_distance(self) -> pd.DataFrame:
         """Return label distance matrix between cell-type clusters."""
         self._assert_geom_initialized()
         return self._label_distance
 
     def _assert_geom_initialized(self):
         if self.geom is None:
-            raise RuntimeError("Geometry is not initialized. Run .init_geom() first.")
+            raise RuntimeError("Geometry is not initialized. Run `self.init_geom()` first.")
 
     def _assert_prob_initialized(self):
         if self.ot_prob is None:
-            raise RuntimeError("OT problem is not initialized. Run .init_problem() first.")
+            raise RuntimeError("OT problem is not initialized. Run `self.init_problem()` first.")
 
     def _assert_solution_initialized(self):
         if self.ot_solution is None:
-            raise RuntimeError("OT solution is not calculated. Run self.solve() first.")
+            raise RuntimeError("OT solution is not calculated. Run `self.solve()` first.")
 
     def _assert_fully_initialized(self):
         self._assert_geom_initialized()
@@ -246,7 +239,7 @@ class DatasetMapping:
         n_samples_hvg_selection: int = 100_000,
     ) -> tuple[anndata.AnnData, anndata.AnnData]:
         """
-        Function for pre-processing the input AnnData objects for usage with :class:`pairot.align.DatasetMapping`.
+        Function for pre-processing the input AnnData objects for usage with :class:`pairot.tl.DatasetMap`.
 
         Function applies the following preprocessing steps:
             1. Subset gene space to genes that are expressed in both datasets.
@@ -270,11 +263,16 @@ class DatasetMapping:
             n_top_genes
                 Number of highly variable genes to use to calculate the Spearman correlation between two cells.
             filter_genes
-                Whether to remove uninformative genes. If true mitochondrial, ribosomal, IncRNA, TCR and BCR genes are removed.
+                Whether to remove uninformative genes.
+                If true mitochondrial, ribosomal, IncRNA, TCR and BCR genes are removed.
             n_samples_auroc
-                Maximum number of samples to use for AUROC calculation. If None, all samples are used. This can drastically reduce computation time for large datasets.
+                Maximum number of samples to use for AUROC calculation.
+                If None, all samples are used.
+                This can drastically reduce computation time for large datasets.
             n_samples_hvg_selection
-                Number of samples to use for highly variable gene selection. If None, all samples are used. This can drastically reduce the memory usage for large datasets.
+                Number of samples to use for highly variable gene selection.
+                If None, all samples are used.
+                This can drastically reduce the memory usage for large datasets.
 
         Returns
         -------
@@ -511,7 +509,7 @@ class DatasetMapping:
         assert self.geom is not None
         return tuple(np.array(arr[:, -1]).astype("i8") for arr in [self.geom.x, self.geom.y])
 
-    def compute_cluster_mapping(
+    def compute_mapping(
         self,
         aggregation_method: Literal["mean", "jensen_shannon", "transported_mass"] | None = "mean",
     ) -> pd.DataFrame | dict[str, pd.DataFrame]:
@@ -567,7 +565,7 @@ class DatasetMapping:
         else:
             return transport_map_agg
 
-    def compute_cluster_distances(self, n_samples: int = 25000) -> pd.DataFrame:
+    def compute_distance(self, n_samples: int = 25000) -> pd.DataFrame:
         """
         Compute the distance between cell-type clusters based on the optimal transport mappings.
 
@@ -617,7 +615,7 @@ class DatasetMapping:
         )
 
     @staticmethod
-    def select_most_similar_clusters(
+    def select_similar_clusters(
         mapping: pd.DataFrame,
         distance: pd.DataFrame,
         threshold_mapping: float | None = 0.25,
@@ -668,28 +666,3 @@ class DatasetMapping:
             ]
 
         return top_n_labels
-
-    def pickle_state(self, path: PathLike | str):
-        """Pickle the state of the OT model."""
-        self._assert_fully_initialized()
-        with open(path, "wb") as f:
-            pickle.dump(
-                (self.geom, self.ot_prob, self.ot_solution),
-                f,
-            )
-
-    def load_state(self, path: PathLike | str):
-        """Load the pickled state of the OT model."""
-        with open(path, "rb") as f:
-            self.geom, self.ot_prob, self.ot_solution = pickle.load(f)
-
-    def pickle_ot_solution(self, path: PathLike | str):
-        """Pickle the solution of the OT model."""
-        self._assert_solution_initialized()
-        with open(path, "wb") as f:
-            pickle.dump(self.ot_solution, f)
-
-    def load_ot_solution(self, path: PathLike | str):
-        """Load the solution of the OT model."""
-        with open(path, "rb") as f:
-            self.ot_solution = pickle.load(f)

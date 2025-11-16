@@ -51,7 +51,7 @@ def _plot_heatmap(
     return fig
 
 
-def plot_cluster_mapping(
+def mapping(
     data: pd.DataFrame,
     width: int = None,
     height: int = None,
@@ -62,7 +62,7 @@ def plot_cluster_mapping(
     backend: Literal["plotly", "matplotlib"] = "plotly",
 ):
     """
-    Plot cluster mappings from :class:`pairot.align.DatasetMapping.compute_cluster_mapping`.
+    Plot cluster mappings from :class:`pairot.tl.DatasetMap.compute_mapping`.
 
     Parameters
     ----------
@@ -87,13 +87,13 @@ def plot_cluster_mapping(
 
     Examples
     --------
-        >>> from pairot.pl import plot_cluster_mapping
+        >>> import pairot as pr
         >>>
         >>> # Get cluster mappings between query and reference dataset
-        >>> mapping = dataset_map.compute_cluster_mapping()
+        >>> mapping = dataset_map.compute_mapping()
         >>>
         >>> # Plot the cluster mapping heatmap
-        >>> plot_cluster_mapping(data)
+        >>> pr.pl.mapping(data)
     """
     if sort_by_score:
         data = data.loc[
@@ -103,14 +103,14 @@ def plot_cluster_mapping(
     return _plot_heatmap(data, colormap, width, height, zmin=zmin, zmax=zmax, backend=backend)
 
 
-def plot_cluster_distance(
+def distance(
     data: pd.DataFrame,
     width: int | None = None,
     height: int | None = None,
     backend: Literal["plotly", "matplotlib"] = "plotly",
 ):
     """
-    Plot cluster distances from :class:`pairot.align.DatasetMapping.compute_cluster_distances`.
+    Plot cluster distances from :class:`pairot.tl.DatasetMap.compute_distance`.
 
     Parameters
     ----------
@@ -126,23 +126,23 @@ def plot_cluster_distance(
 
     Examples
     --------
-        >>> from pairot.pl import plot_cluster_distance
+        >>> import pairot as pr
         >>>
         >>> # Get cluster mappings between query and reference dataset
-        >>> mapping = dataset_map.compute_cluster_mapping()
+        >>> mapping = dataset_map.compute_mapping()
         >>> # Get cluster distances between query and reference dataset
-        >>> distance = dataset_map.compute_cluster_distance()
+        >>> distance = dataset_map.compute_distance()
         >>> distance = distance.loc[
         >>>         mapping.max(axis=1).sort_values(ascending=False).index.tolist(),
         >>>         mapping.max().sort_values(ascending=False).index.tolist(),
         >>>     ]  # order cluster distance matrix the same way as similarity matrix
-        >>> plot_cluster_distance(distance)
+        >>> pr.pl.distance(distance)
 
     """
     return _plot_heatmap(data, "RdYlGn_r", width, height, zmin=0.0, zmax=2.0, backend=backend)
 
 
-def plot_sankey(
+def sankey(
     cluster_mapping: pd.DataFrame,
     cluster_distance: pd.DataFrame,
     filter_threshold: float = 0.25,
@@ -150,7 +150,7 @@ def plot_sankey(
     height: int = None,
 ):
     """
-    Plot cluster mappings and distances from :class:`pairot.align.DatasetMapping` as a Sankey diagram.
+    Plot cluster mappings and distances from :class:`pairot.tl.DatasetMap` as a Sankey diagram.
 
     Parameters
     ----------
@@ -167,13 +167,13 @@ def plot_sankey(
 
     Examples
     --------
-        >>> from pairot.pl import plot_sankey
+        >>> import pairot as pr
         >>>
         >>> # Get cluster mappings between query and reference dataset
-        >>> mapping = dataset_map.compute_cluster_mapping()
+        >>> mapping = dataset_map.compute_mapping()
         >>> # Get cluster distances between query and reference dataset
-        >>> distance = dataset_map.compute_cluster_distance()
-        >>> plot_sankey(
+        >>> distance = dataset_map.compute_distance()
+        >>> pr.pl.sankey(
         >>>     mapping,
         >>>     distance,
         >>>     filter_threshold=0.25,  # only show links with mapping score >= 0.25

@@ -3,15 +3,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pairot.pp import (
-    FILTERED_GENES,
-    OFFICIAL_GENES,
-    downsample_indices,
-    filter_genes_ava,
-    filter_genes_ova,
-    preprocess_adatas,
-    select_genes,
-)
+import pairot as pr
 
 
 def _check_de_filtering(df, logfc_threshold, adj_pval_threshold, auroc_threshold):
@@ -20,8 +12,8 @@ def _check_de_filtering(df, logfc_threshold, adj_pval_threshold, auroc_threshold
     assert df["adj.P.Val"].max() <= adj_pval_threshold
     assert df["auroc"].min() >= auroc_threshold
 
-    genes_to_filter = set(FILTERED_GENES["feature_name"])
-    official_gene_names = set(OFFICIAL_GENES["feature_name"].tolist())
+    genes_to_filter = set(pr.pp.FILTERED_GENES["feature_name"])
+    official_gene_names = set(pr.pp.OFFICIAL_GENES["feature_name"].tolist())
 
     assert len(set(df.index).intersection(genes_to_filter)) == 0
     assert len(set(df.index).intersection(official_gene_names)) == len(df.index)
@@ -37,7 +29,7 @@ def test_preprocess_adatas(
     n_top_genes = 100
 
     adata_query, adata_ref = adata_query_and_ref
-    adata_query, adata_ref = preprocess_adatas(
+    adata_query, adata_ref = pr.pp.preprocess_adatas(
         adata_query,
         adata_ref,
         n_top_genes=n_top_genes,
@@ -78,13 +70,13 @@ def test_preprocess_adatas(
 @pytest.mark.parametrize("adj_pval", [0.1])
 @pytest.mark.parametrize("auroc", [0.5])
 def test_filter_genes_ova(
-    pseudobulk_results,
+    rank_genes_limma_results,
     logfc: float,
     adj_pval: float,
     auroc: float,
 ):
-    de_res_ova, _ = pseudobulk_results
-    de_res_ova = filter_genes_ova(
+    de_res_ova, _ = rank_genes_limma_results
+    de_res_ova = pr.pp.filter_genes_ova(
         de_res_ova,
         logfc_threshold=logfc,
         adj_pval_threshold=adj_pval,
@@ -104,13 +96,13 @@ def test_filter_genes_ova(
 @pytest.mark.parametrize("adj_pval", [0.1])
 @pytest.mark.parametrize("auroc", [0.5])
 def test_filter_genes_ava(
-    pseudobulk_results,
+    rank_genes_limma_results,
     logfc: float,
     adj_pval: float,
     auroc: float,
 ):
-    _, de_res_ava = pseudobulk_results
-    de_res_ava = filter_genes_ava(
+    _, de_res_ava = rank_genes_limma_results
+    de_res_ava = pr.pp.filter_genes_ava(
         de_res_ava,
         logfc_threshold=logfc,
         adj_pval_threshold=adj_pval,
@@ -127,13 +119,13 @@ def test_filter_genes_ava(
             )
 
 
-def test_select_genes(pseudobulk_results):
+def test_select_genes(rank_genes_limma_results):
     n_genes_ova = 10
     n_genes_ava = 3
-    de_res_ova, de_res_ava = pseudobulk_results
-    de_res_ova = filter_genes_ova(de_res_ova, logfc_threshold=0.0, aucroc_threshold=0.0, adj_pval_threshold=1.0)
-    de_res_ava = filter_genes_ava(de_res_ava)
-    de_res_combined = select_genes(de_res_ova, de_res_ava, n_genes_ova=n_genes_ova, n_genes_ava=n_genes_ava)
+    de_res_ova, de_res_ava = rank_genes_limma_results
+    de_res_ova = pr.pp.filter_genes_ova(de_res_ova, logfc_threshold=0.0, aucroc_threshold=0.0, adj_pval_threshold=1.0)
+    de_res_ava = pr.pp.filter_genes_ava(de_res_ava)
+    de_res_combined = pr.pp.select_genes(de_res_ova, de_res_ava, n_genes_ova=n_genes_ova, n_genes_ava=n_genes_ava)
 
     for df in de_res_combined.values():
         assert "logFC" in df.columns
@@ -149,15 +141,15 @@ def test_select_genes(pseudobulk_results):
 def test_downsample_indices():
     labels = np.array(["A", "A", "A", "A", "B", "B", "C"])
     n_samples = 2
-    result = downsample_indices(labels, n_samples, random_state=42)
+    result = pr.pp.downsample_indices(labels, n_samples, random_state=42)
     # Check the correct number of samples per label
     result_labels = labels[result]
     assert np.sum(result_labels == "A") == n_samples
     assert np.sum(result_labels == "B") == n_samples
     assert np.sum(result_labels == "C") == 1
     # Test reproducibility
-    result1 = downsample_indices(labels, n_samples, random_state=42)
-    result2 = downsample_indices(labels, n_samples, random_state=42)
+    result1 = pr.pp.downsample_indices(labels, n_samples, random_state=42)
+    result2 = pr.pp.downsample_indices(labels, n_samples, random_state=42)
     assert np.array_equal(result1, result2)
     # Test that all returned indices are valid
     assert np.all(result >= 0)

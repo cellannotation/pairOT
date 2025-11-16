@@ -1,11 +1,11 @@
 from importlib.metadata import version
 
-from ._plotting import plot_cluster_distance, plot_cluster_mapping, plot_sankey
+from ._plotting import distance, mapping, sankey
 
 __all__ = [
-    "plot_cluster_mapping",
-    "plot_cluster_distance",
-    "plot_sankey",
+    "mapping",
+    "distance",
+    "sankey",
 ]
 
 __version__ = version("pairot")
