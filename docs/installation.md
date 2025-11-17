@@ -6,7 +6,7 @@ If you don't have Python installed, we recommend installing [uv](https://github.
 ## Running pairOT via Docker
 To run pairOT, we provide a [docker image](https://hub.docker.com/r/felix0097/pairot/tags) that contains all the necessary dependencies:
 ```bash
-docker pull felix0097/pairot:full_v1
+docker pull felix0097/pairot:0.1
 ```
 
 ## Install pairOT via pip
@@ -24,6 +24,12 @@ Please refer to the official R documentation for [installation instructions](htt
 ### Install pairOT via pip
 ```bash
 pip install git+https://github.com/cellannotation/pairot.git@main
+```
+
+In case your `rpy2` installation fails, you might have to install the `libtirpc` development package on your system first.
+```bash
+sudo apt update
+sudo apt install libtirpc-dev libpcre2-dev libbz2-dev liblzma-dev zlib1g-dev libicu-dev
 ```
 
 By default, the installed JAX version only uses the CPU to make JAX recognize your GPU/TPU,
@@ -58,6 +64,8 @@ It might take a while to install all R dependencies.
 
 **Note:** If you're using `R 4.3` you can install the following package versions:
 ```python
+import rpy2.robjects as ro
+
 INSTALL_R_PACKAGES = """
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
@@ -72,4 +80,6 @@ install_version("data.table", version = "1.15.4")
 install_version("glue", version = "1.7.0")
 install_version("stringr", version = "1.5.1")
 """
+
+ro.r(INSTALL_R_PACKAGES)
 ```

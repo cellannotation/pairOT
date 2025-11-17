@@ -4,7 +4,7 @@ requires = [ "cython>=3.0.11", "hatch-cython>=0.5", "hatchling" ]
 
 [project]
 name = "pairot"
-version = "0.0.1"
+version = "0.1"
 description = "Align cell annotations across two datasets through annotation-informed optimal transport."
 readme = "README.md"
 license = { file = "LICENSE" }
