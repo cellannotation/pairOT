@@ -62,27 +62,6 @@ def _get_label_frequency(cell_type_labels: pd.Series, subset: np.ndarray) -> pd.
     return cell_type_labels[cell_type_labels.isin(subset)].cat.remove_unused_categories().value_counts(normalize=True)
 
 
-def _predict_from_marginals(labels_ref: pd.Series, marginal_contrib: dict[str, np.ndarray]) -> np.ndarray:
-    labels, marginals = zip(*marginal_contrib.items(), strict=True)
-    labels, marginals = np.array(labels), np.stack(marginals).T
-    label_freq_ref = _get_label_frequency(labels_ref, labels).loc[labels].to_numpy()
-
-    predictions = np.empty(marginals.shape, dtype=bool)
-    for i, freq in enumerate(label_freq_ref):
-        x = marginals[:, i]
-        predictions[:, i] = x >= np.quantile(x, 1.0 - freq)
-    # correct if one cell has been assigned more than once
-    highest_diff_pred = labels[
-        # use relative difference
-        np.argmax(marginals / np.quantile(marginals, label_freq_ref), axis=1)
-    ]
-    correction_mask = np.sum(predictions, axis=1) != 1
-    for i, _ in enumerate(labels):
-        predictions[correction_mask, i] = highest_diff_pred[correction_mask] == i
-
-    return labels[np.argmax(predictions, axis=1)]
-
-
 @jax.tree_util.register_pytree_node_class
 class _CellCellTransportCost(ott.geometry.costs.CostFn):
     """Cost function to calculate the cell to cell transport cost."""
@@ -565,7 +544,7 @@ class DatasetMap:
         else:
             return transport_map_agg
 
-    def compute_distance(self, n_samples: int = 25000) -> pd.DataFrame:
+    def compute_distance(self, n_samples: int = 10000) -> pd.DataFrame:
         """
         Compute the distance between cell-type clusters based on the optimal transport mappings.
 
@@ -582,11 +561,11 @@ class DatasetMap:
 
         def _compute_weighted_transport_cost(idxs_x, idxs_y):
             geom_subset = self.geom.subset(idxs_x, idxs_y)
-            transport = jax.jit(geom_subset.transport_from_potentials)(
+            transport = geom_subset.transport_from_potentials(
                 self.ot_solution.f[idxs_x],
                 self.ot_solution.g[idxs_y],
             )
-            cost = jax.jit(self.geom.cost_fn.all_pairs)(self.geom.x[idxs_x, :], self.geom.y[idxs_y, :])
+            cost = self.geom.cost_fn.all_pairs(self.geom.x[idxs_x, :], self.geom.y[idxs_y, :])
             total_transport_mass = jnp.sum(transport)
             if total_transport_mass > 1e-16:
                 transport /= total_transport_mass

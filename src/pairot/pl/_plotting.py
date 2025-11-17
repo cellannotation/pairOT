@@ -29,8 +29,9 @@ def _plot_heatmap(
         fig.update_layout(coloraxis_showscale=False)
         fig.update_xaxes(tickangle=90)
         fig.update_yaxes(tickangle=0)
+        return fig
     elif backend == "matplotlib":
-        fig, ax = plt.subplots(figsize=(width / 100, height / 100), dpi=100)
+        _, ax = plt.subplots(figsize=(width / 100, height / 100), dpi=100)
         sns.heatmap(
             data,
             annot=True,
@@ -45,10 +46,9 @@ def _plot_heatmap(
         )
         ax.tick_params(axis="x", colors=(0.2, 0.2, 0.2, 1), length=0, labelsize=10)
         ax.tick_params(axis="y", colors=(0.2, 0.2, 0.2, 1), length=0, labelsize=10)
+        return ax
     else:
         raise ValueError(f"Unsupported backend: {backend}. Backends supported: 'plotly', 'matplotlib'.")
-
-    return fig
 
 
 def mapping(
