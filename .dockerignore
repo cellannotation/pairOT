@@ -1,0 +1,10 @@
+# Ignore compiled files from cython
+*.c
+*.so
+# Ignore data files
+*.parquet
+*.h5ad
+# Ignore docs/build
+docs/_build
+# Ignore VSCode settings
+.vscode/
