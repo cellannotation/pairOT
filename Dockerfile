@@ -7,7 +7,7 @@ RUN apt-get install -y libdeflate-dev libzstd-dev build-essential
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/" >> /etc/apt/sources.list
 RUN apt-get update -y
-RUN apt-get install -y r-base=4.3.3-2build2 r-base-dev=4.3.3-2build2 r-recommended=4.3.3-2build2
+RUN apt-get install -y r-base r-base-dev r-recommended
 
 # Install pairOT
 COPY . /opt/pairOT
@@ -16,4 +16,4 @@ RUN pip install ".[dev,test]"
 RUN pip install jupyterlab ipywidgets ipykernel
 
 # Install R packages
-RUN Rscript /opt/pairOT/src/pairot/pp/resources/install_r_packages_R43.R
+RUN Rscript /opt/pairOT/src/pairot/pp/resources/install_r_packages_latest.R
