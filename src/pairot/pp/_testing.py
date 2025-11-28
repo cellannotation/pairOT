@@ -18,36 +18,6 @@ from scipy.sparse import csr_matrix
 from pairot.pp._auroc import calc_auroc, csr_to_csc
 from pairot.pp._utils import downsample_indices
 
-INSTALL_R_PACKAGES = """
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("limma")
-
-install.packages("remotes")
-library(remotes)
-install_version("rhdf5", version = "2.46.1", repos = "https://bioconductor.org/packages/3.18/bioc")
-install_version("Matrix", version = "1.6-0")
-install_version("magrittr", version = "2.0.3")
-install_version("data.table", version = "1.15.4")
-install_version("glue", version = "1.7.0")
-install_version("stringr", version = "1.5.1")
-"""
-
-
-INSTALL_R_PACKAGES_LATETST = """
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("limma")
-BiocManager::install("rhdf5")
-install.packages("Matrix")
-install.packages("magrittr")
-install.packages("data.table")
-install.packages("glue")
-install.packages("stringr")
-"""
-
-
 R_DE_TEST_CODE = """
 library(limma)
 library(rhdf5)

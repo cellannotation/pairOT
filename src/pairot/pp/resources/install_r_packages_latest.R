@@ -1,0 +1,10 @@
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("limma")
+BiocManager::install("rhdf5")
+install.packages("Matrix")
+install.packages("magrittr")
+install.packages("data.table")
+install.packages("glue")
+install.packages("stringr")
