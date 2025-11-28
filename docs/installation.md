@@ -4,9 +4,19 @@ You need to have Python 3.12 or newer installed on your system.
 If you don't have Python installed, we recommend installing [uv](https://github.com/astral-sh/uv).
 
 ## Running pairOT via Docker
+
+### Pre-built Docker image
 To run pairOT, we provide a [docker image](https://hub.docker.com/r/felix0097/pairot/tags) that contains all the necessary dependencies:
 ```bash
 docker pull felix0097/pairot:0.1
+```
+
+### Build Docker image from source
+Alternatively, you can build your own Docker image as follows:
+```bash
+git clone https://github.com/cellannotation/pairOT.git
+cd pairOT
+docker build -t pairot:latest .
 ```
 
 ## Install pairOT via pip
