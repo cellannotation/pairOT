@@ -17,3 +17,6 @@ RUN pip install jupyterlab ipywidgets ipykernel
 
 # Install R packages
 RUN Rscript /opt/pairOT/src/pairot/pp/resources/install_r_packages_latest.R
+
+# Run tests to verify installation
+RUN pytest /opt/pairOT/tests
