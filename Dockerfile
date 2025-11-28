@@ -16,4 +16,4 @@ RUN pip install ".[dev,test]"
 RUN pip install jupyterlab ipywidgets ipykernel
 
 # Install R packages
-RUN Rscript src/pairot/pp/resources/install_R_packages_R43.R
+RUN Rscript /opt/pairOT/src/pairot/pp/resources/install_r_packages_R43.R
