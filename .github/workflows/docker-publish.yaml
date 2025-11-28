@@ -1,8 +1,9 @@
 name: Docker Build and Push
 
 on:
-  release:
-    types: [published]
+# ToDo: Fix disk space issue first
+#  release:
+#    types: [published]
   workflow_dispatch: # Allow manual trigger
 
 jobs:
