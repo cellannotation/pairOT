@@ -27,23 +27,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract version from tag
-        id: version
-        run: |
-          # Get version from release tag (remove 'v' prefix if present)
-          VERSION=${GITHUB_REF#refs/tags/}
-          VERSION=${VERSION#v}
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "Version: ${VERSION}"
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/pairot:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/pairot:${{ steps.version.outputs.version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pairot:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
