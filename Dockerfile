@@ -1,11 +1,11 @@
 FROM nvcr.io/nvidia/jax:25.10-py3
 
 # Install R and necessary libraries
-RUN apt update
-RUN apt install libtirpc-dev libpcre2-dev libbz2-dev liblzma-dev zlib1g-dev libicu-dev
+RUN apt update -y
+RUN apt install -y libtirpc-dev libpcre2-dev libbz2-dev liblzma-dev zlib1g-dev libicu-dev
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/" >> /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install r-base=4.3.3-2build2 r-base-dev=4.3.3-2build2
+RUN apt-get update -y
+RUN apt-get install -y r-base=4.3.3-2build2 r-base-dev=4.3.3-2build2
 
 # Install pairOT
 RUN pip install '.[dev,test]'
