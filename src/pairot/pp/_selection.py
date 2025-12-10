@@ -5,10 +5,18 @@ import numpy as np
 import pandas as pd
 
 OFFICIAL_GENES: pd.DataFrame = pd.read_csv(join(dirname(__file__), "resources/official-genes.csv"))
-OFFICIAL_GENES.__doc__ = """DataFrame containing official gene names from genenames.org."""
+OFFICIAL_GENES.__doc__ = """
+DataFrame containing official gene names from genenames.org.
+
+See https://www.genenames.org/download/custom/ to download the list of official gene names.
+"""
 
 FILTERED_GENES: pd.DataFrame = pd.read_csv(join(dirname(__file__), "resources/filtered-genes.csv"))
-FILTERED_GENES.__doc__ = """DataFrame containing uninformative genes to filter out, e.g., mitochondrial, ribosomal, IncRNA, TCR and BCR genes."""
+FILTERED_GENES.__doc__ = """
+DataFrame containing uninformative genes to filter out, e.g., mitochondrial, ribosomal, IncRNA, TCR and BCR genes.
+
+See https://github.com/cellannotation/cap-gene-filtering for a detailed description of filtered out genes.
+"""
 
 
 def _calc_scaled_jaccard(markers1: dict[str, set], markers2: dict[str, set]) -> pd.DataFrame:
