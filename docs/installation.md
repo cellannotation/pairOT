@@ -8,7 +8,7 @@ If you don't have Python installed, we recommend installing [uv](https://github.
 ### Pre-built Docker image
 To run pairOT, we provide a [docker image](https://hub.docker.com/r/felix0097/pairot/tags) that contains all the necessary dependencies:
 ```bash
-docker pull felix0097/pairot:0.1
+docker pull felix0097/pairot:latest
 ```
 
 ### Build Docker image from source
