@@ -1,5 +1,6 @@
 import os
 import shutil
+import tempfile
 from collections.abc import Iterable
 from os.path import join
 from pathlib import Path
@@ -347,7 +348,7 @@ def rank_genes_limma(
     if not adata.obs[cluster_label].dtype.name == "category":
         adata.obs[cluster_label] = adata.obs[cluster_label].astype("category")
 
-    save_path = "pseudobulk/"
+    save_path = tempfile.mkdtemp(prefix="pseudobulk_")
     save_name = "pseudobulk"
     # Replace cluster labels with int labels. Otherwise, R code below won't work
     mapping = {v: f"c_{i}" for i, v in enumerate(adata.obs[cluster_label].unique())}
@@ -376,8 +377,6 @@ def rank_genes_limma(
     norm_mtx.data *= np.repeat(scale, np.diff(norm_mtx.indptr))
     norm_mtx.data = np.log1p(norm_mtx.data)
     # Save the matrix
-    if not os.path.isdir(save_path):
-        os.mkdir(save_path)
     meta_mtx.to_csv(os.path.join(save_path, f"{save_name}_pseudobulk_meta.csv"))
     # Need to save the norm count matrix as .h5, too slow to save it otherwise
     sc.AnnData(X=norm_mtx, obs=pd.DataFrame(index=index), var=pd.DataFrame(index=cols)).write_h5ad(
