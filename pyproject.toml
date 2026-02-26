@@ -86,6 +86,7 @@ installer = "uv"
 features = [ "dev" ]
 
 [tool.hatch.envs.docs]
+installer = "uv"
 features = [ "doc" ]
 scripts.build = "sphinx-build -M html docs docs/_build -W {args}"
 scripts.open = "python -m webbrowser -t docs/_build/html/index.html"
