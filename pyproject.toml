@@ -64,6 +64,7 @@ optional-dependencies.test = [
   "coverage>=7.10",
   "pytest",
   "pytest-cov",     # For VS Code’s coverage functionality
+  "rpy2>=3.5.11",
 ]
 # https://docs.pypi.org/project_metadata/#project-urls
 urls.Documentation = "https://pairOT.readthedocs.io/"
