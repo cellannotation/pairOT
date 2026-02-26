@@ -11,5 +11,6 @@ build:
       - asdf global uv latest
     build:
       html:
-        - uvx hatch run docs:build
+        # TODO: Remove UV_CONSTRAINT once hatch supports virtualenv>=21, see https://github.com/pypa/hatch/pull/2196
+        - UV_CONSTRAINT=.github/workflows/constraints.txt uvx hatch run docs:build
         - mv docs/_build $READTHEDOCS_OUTPUT
