@@ -7,12 +7,9 @@ from pathlib import Path
 import anndata
 import numpy as np
 import pandas as pd
-import rpy2.robjects as ro
 import scanpy as sc
 import tqdm
 from joblib import Parallel, delayed, parallel_backend
-from rpy2.robjects import pandas2ri
-from rpy2.robjects.conversion import localconverter
 from scipy.sparse import csr_matrix
 
 from pairot.pp._auroc import calc_auroc, csr_to_csc
@@ -338,6 +335,13 @@ def rank_genes_limma(
         ...     sample_label="sample_id",
         ... )
     """
+    try:
+        import rpy2.robjects as ro
+        from rpy2.robjects import pandas2ri
+        from rpy2.robjects.conversion import localconverter
+    except ImportError:
+        raise ImportError("rpy2 is required for rank_genes_limma. Install it with: pip install pairot[rpy2]") from None
+
     if not isinstance(adata.X, csr_matrix):
         adata.X = csr_matrix(adata.X)
     if not adata.obs[cluster_label].dtype.name == "category":

@@ -12,7 +12,7 @@ RUN apt-get install -y r-base r-base-dev r-recommended
 # Install pairOT
 COPY . /opt/pairOT
 WORKDIR /opt/pairOT
-RUN pip install ".[dev,test]"
+RUN pip install ".[dev,test,rpy2]"
 RUN pip install jupyterlab ipywidgets ipykernel
 
 # Install R packages
