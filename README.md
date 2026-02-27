@@ -1,7 +1,7 @@
 [//]: # (# pairOT)
 
 <h1 align="center">
-  <img src="docs/_static/pairOT-logo.png" alt="pairOT Logo" width="500"/>
+  <img src="https://raw.githubusercontent.com/cellannotation/pairOT/main/docs/_static/pairOT-logo.png" alt="pairOT Logo" width="500"/>
 </h1>
 
 [![Python Version](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/release/python-3120/)
@@ -29,10 +29,10 @@ For detailed installation instructions, please refer to the [installation guide]
 Please take a look at the following tutorials for detailed examples on how to use pairOT:
 
 ### Detailed explanation
-For a detailed tutorial, please see the [in depth tutorial](https://github.com/cellannotation/pairOT/blob/main/docs/notebooks/Tutorial.ipynb).
+For a detailed tutorial, please see the [in depth tutorial](https://pairot.readthedocs.io/en/latest/notebooks/Tutorial.html).
 
 ### Speed up pairOT computations
-For details on how to speed up pairOT model fits and reduce compute requirements, see the [reduce compute requirements tutorial](https://github.com/cellannotation/pairOT/blob/main/docs/notebooks/Reduce%20Compute%20Requirements.ipynb)
+For details on how to speed up pairOT model fits and reduce compute requirements, see the [reduce compute requirements tutorial](https://pairot.readthedocs.io/en/latest/notebooks/Reduce%20Compute%20Requirements.html)
 
 
 ## Basics of using pairOT

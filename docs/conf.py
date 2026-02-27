@@ -100,7 +100,10 @@ intersphinx_mapping = {
     "scanpy": ("https://scanpy.readthedocs.io/en/stable/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "ott": ("https://ott-jax.readthedocs.io/", None),
-    "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+    "pandas": (
+        "https://pandas.pydata.org/pandas-docs/version/2.3/",
+        None,
+    ),  # Use pandas 2 docs for now as readthedocs build fails with pandas 3
 }
 
 # List of patterns, relative to source directory, that match files and
