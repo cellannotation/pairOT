@@ -52,7 +52,6 @@ import pairot as pr
 ## Resources
 
 ```{eval-rst}
-.. module:: pairot.pp
 .. currentmodule:: pairot
 
 .. autosummary::

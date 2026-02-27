@@ -10,7 +10,8 @@ installation.md
 notebooks/index
 introduction.md
 api.md
-changelog.md
 contributing.md
+references.md
+changelog.md
 
 ```
