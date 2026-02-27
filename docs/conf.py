@@ -134,3 +134,7 @@ nitpick_ignore = [
     # you can add an exception to this list.
     #     ("py:class", "igraph.Graph"),
 ]
+
+qualname_overrides = {
+    "pandas.core.frame.DataFrame": "pandas.DataFrame",
+}
