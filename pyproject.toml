@@ -23,7 +23,7 @@ classifiers = [
 dependencies = [
   "anndata>=0.11",
   "cython>=3.0.11",
-  "jax>=0.4.29",
+  "jax>=0.4.29,<0.9",  # ott-jax does not work with jax >=0.9 yet
   "joblib>=1.4.2",
   "matplotlib>=3.8.4",
   "numpy>=1.26.4",
