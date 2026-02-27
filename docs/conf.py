@@ -100,7 +100,7 @@ intersphinx_mapping = {
     "scanpy": ("https://scanpy.readthedocs.io/en/stable/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "ott": ("https://ott-jax.readthedocs.io/", None),
-    "pandas": ("https://pandas.pydata.org/docs/", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
 }
 
 # List of patterns, relative to source directory, that match files and
@@ -134,7 +134,3 @@ nitpick_ignore = [
     # you can add an exception to this list.
     #     ("py:class", "igraph.Graph"),
 ]
-
-qualname_overrides = {
-    "pandas.core.frame.DataFrame": "pandas.DataFrame",
-}
